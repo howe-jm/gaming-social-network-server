@@ -1,6 +1,6 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const { JWT_SECRET } = require('../config');
+const { JWT_SECRET } = require('./config');
 
 module.exports = (passport) => {
   passport.use(
