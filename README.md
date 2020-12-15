@@ -1,1 +1,1 @@
-# gaming-social-network-server
+# Gaming Social Network Server
