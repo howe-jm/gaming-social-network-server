@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(passport.initialize());
-require('./config/passport')(passport);
+require('./passport')(passport);
 
 app.use('/', require('./routes/index'));
 
