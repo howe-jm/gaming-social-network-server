@@ -1,4 +1,4 @@
-# Specifies where to get the base image (Node v12 in our case) and creates a new container for it
+# Specifies where to get the base image and creates a new container for it
 FROM node:latest
 
 # Set working directory. Paths will be relative this WORKDIR.
