@@ -1,0 +1,46 @@
+{
+  "name": "gaming-social-network-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "migrate": "NODE_ENV=development postgrator --config postgrator-config.js",
+    "migrate:test": "NODE_ENV=test npm run migrate",
+    "migrate:production": "heroku run npm run migrate",
+    "postdeploy": "npm run migrate:production",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/domcodesjs/gaming-social-network-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/domcodesjs/gaming-social-network-server/issues"
+  },
+  "homepage": "https://github.com/domcodesjs/gaming-social-network-server#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.2.0",
+    "knex": "^0.21.13",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "pg": "^8.5.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.6",
+    "postgrator": "^4.1.1",
+    "postgrator-cli": "^4.0.0",
+    "supertest": "^6.0.1"
+  }
+}
