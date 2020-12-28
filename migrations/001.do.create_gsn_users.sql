@@ -3,7 +3,7 @@ CREATE TABLE users (
     email TEXT NOT NULL UNIQUE,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    useradmin BOOLEAN NOT NULL DEFAULT false,
+    role BOOLEAN NOT NULL DEFAULT false,
     created TIMESTAMPTZ NOT NULL DEFAULT now(),
     last_updated TIMESTAMPTZ NOT NULL DEFAULT now()
 );
