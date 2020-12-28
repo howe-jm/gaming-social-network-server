@@ -32,7 +32,8 @@ exports.createUser = async (req, res) => {
       success: true,
       user: {
         email: user.email,
-        username: user.username
+        username: user.username,
+        role: user.role
       },
       token
     });
