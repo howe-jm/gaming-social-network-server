@@ -1,12 +1,6 @@
 const db = require('../knex/knex');
 
-exports.addUser = async (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      success: false,
-      errors: [{ msg: '' }]
-    });
-  }
+exports.getUserByEmail = async (email) => {
+  const user = await db('users').where({ email: email.toLowerCase() }).first();
+  return user;
 };

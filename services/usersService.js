@@ -1,23 +1,22 @@
-const UsersService = {
-  insertNewUser(knex, userData) {
-    return knex
-      .insert(userData)
-      .into('users')
+const db = require('../knex/knex');
+
+exports.insertUser = async (email, username, hashedPassword) => {
+  const user = (
+    await db('users')
+      .insert({ email, username, password: hashedPassword })
       .returning('*')
-      .then((rows) => {
-        return rows[0];
-      });
-  },
-  deleteUser(knex, id) {
-    return knex('users').where({ id }).delete();
-  },
-  changeUser(knex, id, updatedUser) {
-    return knex('users')
-      .where({ id })
-      .update(updatedUser)
-      .returning('*')
-      .then((rows) => rows[0]);
-  },
+  )[0];
+  return user;
 };
 
-module.exports = UsersService;
+exports.deleteUser = (id) => {
+  return db('users').where({ id }).delete();
+};
+
+exports.updateUser = (id, updatedUser) => {
+  return db('users')
+    .where({ id })
+    .update(updatedUser)
+    .returning('*')
+    .then((rows) => rows[0]);
+};

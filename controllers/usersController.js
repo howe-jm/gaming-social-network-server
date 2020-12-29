@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
+const { insertUser } = require('../services/usersService');
 
 exports.createUser = async (req, res) => {
   try {
@@ -14,9 +15,7 @@ exports.createUser = async (req, res) => {
     const { email, username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // @TODO - insert user into DB here
-    // should look something like this probably
-    // const user = await somethingService.insertUser(email, username, hashedPassword);
+    const user = await insertUser(email, username, hashedPassword);
 
     const token = jwt.sign(
       {

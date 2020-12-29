@@ -25,5 +25,7 @@ app.use(passport.initialize());
 require('./passport')(passport);
 
 app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/userRoutes'));
+app.use('/auth', require('./routes/authRoutes'));
 
 module.exports = app;

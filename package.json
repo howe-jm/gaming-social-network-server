@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "migrate": "postgrator --config postgrator-config.js",
+    "start": "env NODE_ENV=production node index.js",
+    "dev": "env NODE_ENV=development nodemon index.js",
+    "migrate:dev": "env NODE_ENV=development postgrator --config postgrator-config.js",
     "migrate:test": "env NODE_ENV=test npm run migrate",
     "migrate:production": "heroku run npm run migrate",
     "postdeploy": "npm run migrate:production",
