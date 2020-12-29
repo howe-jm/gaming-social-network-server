@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "NODE_ENV=development nodemon index.js",
-    "migrate": "NODE_ENV=development postgrator --config postgrator-config.js",
-    "migrate:test": "NODE_ENV=test npm run migrate",
+    "start": "env NODE_ENV=production node index.js",
+    "dev": "env NODE_ENV=development nodemon index.js",
+    "migrate:dev": "env NODE_ENV=development postgrator --config postgrator-config.js",
+    "migrate:test": "env NODE_ENV=test npm run migrate",
     "migrate:production": "heroku run npm run migrate",
     "postdeploy": "npm run migrate:production",
     "test": "mocha"
@@ -30,8 +30,11 @@
     "express": "^4.17.1",
     "express-validator": "^6.9.0",
     "helmet": "^4.2.0",
+    "jimp": "^0.16.1",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.13",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "pg": "^8.5.1"
