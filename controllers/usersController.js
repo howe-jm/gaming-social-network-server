@@ -30,6 +30,7 @@ exports.createUser = async (req, res) => {
     res.status(200).json({
       success: true,
       user: {
+        id: user.id,
         email: user.email,
         username: user.username,
         role: user.role
