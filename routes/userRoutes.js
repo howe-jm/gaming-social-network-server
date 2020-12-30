@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const db = require('../knex/knex');
 const { body } = require('express-validator');
-const { createUser } = require('../controllers/usersController');
+const {
+  createUser,
+  getProfileByUsername
+} = require('../controllers/usersController');
 
 router.post(
   '/',
@@ -44,5 +47,7 @@ router.post(
   ],
   createUser
 );
+
+router.get('/:username', getProfileByUsername);
 
 module.exports = router;
