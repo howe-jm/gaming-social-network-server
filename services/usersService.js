@@ -1,7 +1,11 @@
 const db = require('../knex/knex');
 
 exports.insertUser = async (email, username, hashedPassword) => {
-  const user = (await db('users').insert({ email, username, password: hashedPassword }).returning('*'))[0];
+  const user = (
+    await db('users')
+      .insert({ email, username, password: hashedPassword })
+      .returning('*')
+  )[0];
   return user;
 };
 
