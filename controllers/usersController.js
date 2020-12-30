@@ -51,7 +51,7 @@ exports.createUser = async (req, res) => {
 
 exports.getProfileByUsername = async (req, res) => {
   try {
-    const user_id = await getUserIdByName(req.body.username);
+    const user_id = await getUserIdByName(req.params.username);
     const profile = await getUserProfile(user_id);
 
     if (!profile) {
