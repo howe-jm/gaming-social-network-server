@@ -1,11 +1,7 @@
 const db = require('../knex/knex');
 
 exports.insertUser = async (email, username, hashedPassword) => {
-  const user = (
-    await db('users')
-      .insert({ email, username, password: hashedPassword })
-      .returning('*')
-  )[0];
+  const user = (await db('users').insert({ email, username, password: hashedPassword }).returning('*'))[0];
   return user;
 };
 
@@ -19,4 +15,12 @@ exports.updateUser = (id, updatedUser) => {
     .update(updatedUser)
     .returning('*')
     .then((rows) => rows[0]);
+};
+
+exports.getUserByName = (username) => {
+  return db('users').select('id').where('username', username).first();
+};
+
+exports.getUserProfile = (userId) => {
+  return db('profiles').where('user_id', userId).first();
 };
