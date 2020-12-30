@@ -51,8 +51,8 @@ exports.createUser = async (req, res) => {
 
 exports.getProfileByUsername = async (req, res) => {
   try {
-    const { username } = await getUserIdByName(req.params);
-    const profile = await getUserProfile(username);
+    const user_id = await getUserIdByName(req.params.username);
+    const profile = await getUserProfile(user_id);
 
     if (!profile) {
       return res.status(400).json({
