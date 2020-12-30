@@ -3,8 +3,8 @@ const router = express.Router();
 const db = require('../knex/knex');
 const { body } = require('express-validator');
 const {
-  createUser,
-  getProfileByUsername
+    createUser,
+    getProfileByUsername,
 } = require('../controllers/usersController');
 
 router.post(
