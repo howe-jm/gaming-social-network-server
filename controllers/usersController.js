@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
-const { insertUser, getUserIdByName, getProfileByUsername } = require('../services/usersService');
+const { insertUser, getUserIdByName, getUserProfile } = require('../services/usersService');
 
 exports.createUser = async (req, res) => {
   try {
@@ -47,8 +47,8 @@ exports.createUser = async (req, res) => {
 
 exports.getProfileByUsername = async (req, res) => {
   try {
-    const user_id = getUserIdByName(req.body.username);
-    const profile = await getProfileByUsername(user_id);
+    const user_id = await getUserIdByName(req.body.username);
+    const profile = await getUserProfile(user_id);
 
     if (!profile) {
       return res.status(400).json({

@@ -17,7 +17,7 @@ exports.updateUser = (id, updatedUser) => {
     .then((rows) => rows[0]);
 };
 
-exports.getUserByName = (username) => {
+exports.getUserIdByName = (username) => {
   return db('users').select('id').where('username', username).first();
 };
 
