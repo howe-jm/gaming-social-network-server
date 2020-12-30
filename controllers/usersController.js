@@ -2,7 +2,11 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
-const { insertUser, getUserIdByName, getUserProfile } = require('../services/usersService');
+const {
+  insertUser,
+  getUserIdByName,
+  getProfileByUsername
+} = require('../services/usersService');
 
 exports.createUser = async (req, res) => {
   try {
@@ -22,7 +26,7 @@ exports.createUser = async (req, res) => {
         id: user.id,
         email: user.email,
         username: user.username,
-        role: user.role,
+        role: user.role
       },
       JWT_SECRET
     );
@@ -33,14 +37,14 @@ exports.createUser = async (req, res) => {
         id: user.id,
         email: user.email,
         username: user.username,
-        role: user.role,
+        role: user.role
       },
-      token,
+      token
     });
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error: Failed to create user' }],
+      errors: [{ msg: 'Server error: Failed to create user' }]
     });
   }
 };
@@ -53,18 +57,18 @@ exports.getProfileByUsername = async (req, res) => {
     if (!profile) {
       return res.status(400).json({
         success: false,
-        errors: [{ msg: 'Could not get profile' }],
+        errors: [{ msg: 'Could not get profile' }]
       });
     }
 
     res.status(200).json({
       success: true,
-      profile,
+      profile
     });
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error: Could not get profile' }],
+      errors: [{ msg: 'Server error: Could not get profile' }]
     });
   }
 };
