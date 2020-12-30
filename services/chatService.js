@@ -1,19 +1,19 @@
 const db = require('../knex/knex');
 
-exports.newConversation = (userId) => {
-  return db('conversations').insert({ user_id: userId }).returning('*')[0];
+exports.newConversation = (user_id) => {
+  return db('conversations').insert({ user_id }).returning('*')[0];
 };
 
 exports.newMessage = (message) => {
-  return db('messages').insert({ message: message }).returning('*')[0];
+  return db('messages').insert({ message }).returning('*')[0];
 };
 
 exports.deleteMessage = (id) => {
-  return db('messages').delete({ id: id });
+  return db('messages').delete({ id });
 };
 
-exports.addUserToConversation = (userId, conversationId) => {
-  return db('conversations').insert({ user_id: userId, conversation_id: conversationId }).returning('*')[0];
+exports.addUserToConversation = (user_id, conversation_id) => {
+  return db('conversations').insert({ user_id, conversation_id }).returning('*')[0];
 };
 
 exports.removeUserFromConversation = (user, conversation) => {
