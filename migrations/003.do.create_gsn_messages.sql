@@ -1,5 +1,5 @@
 CREATE TABLE messages (
-    id bigserial primary key,
+    id BIGSERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL,
     frienduser_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL,
     content TEXT,

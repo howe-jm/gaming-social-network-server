@@ -1,1 +1,4 @@
-DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS entity_like;
+DROP TABLE IF EXISTS entity_post;
+DROP TABLE IF EXISTS entity_comment;
+DROP TABLE IF EXISTS entity;
