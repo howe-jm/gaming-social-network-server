@@ -1,3 +1,4 @@
+'use strict';
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
