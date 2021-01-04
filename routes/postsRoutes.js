@@ -17,18 +17,21 @@ router.get(
         {
           entity_id: uuid(),
           user_id: 1,
+          username: 'darissdev',
           post_text:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
         },
         {
           entity_id: uuid(),
           user_id: 1,
+          username: 'darissdev',
           post_text:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
         },
         {
           entity_id: uuid(),
           user_id: 1,
+          username: 'darissdev',
           post_text:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
         }
@@ -45,6 +48,7 @@ router.post(
       post: {
         entity_id: uuid(),
         user_id: req.user.id,
+        username: 'darissdev',
         post_text: req.body.text
       }
     });
