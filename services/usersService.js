@@ -16,3 +16,11 @@ exports.updateUser = (id, updatedUser) => {
     .returning('*')
     .then((rows) => rows[0]);
 };
+
+exports.getUserIdByName = (username) => {
+  return db('users').select('id').where('username', username).first();
+};
+
+exports.getUserProfile = (userId) => {
+  return db('profiles').where('user_id', userId).first();
+};
