@@ -1,14 +1,12 @@
 const db = require('../knex/knex');
 
 exports.insertPost = async (content, user_id) => {
-  const post = (
-    await db('posts').insert({ content, user_id }).returning('*')
-  )[0];
+  const post = (await db('posts').insert({ content, user_id }).returning('*'))[0];
   return post;
 };
 
 exports.getUserPosts = async (user_id) => {
-  const posts = await db('posts').where({ user_id }).returning('*');
+  const posts = await db('posts').where({ user_id }).andWhere({ group_id: null }).returning('*');
   return posts;
 };
 
