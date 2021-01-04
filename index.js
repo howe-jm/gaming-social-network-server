@@ -13,17 +13,10 @@ io.use(async (socket, next) => {
 io.on('connection', (socket) => {
     console.log('a user connected');
 
-<<<<<<< HEAD
     socket.on('message', (msg) => {
         console.log(msg);
-        io.emit('message', msg);
+        io.emit('message', { text: msg.text });
     });
-=======
-  socket.on('message', (msg) => {
-    console.log(msg);
-    io.emit('message', { text: msg.text });
-  });
->>>>>>> fff3b48d2c4c5f1eaf73a041a8021afdbd22e866
 
     // io.emit('message', new Date());
 });
