@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
 =======
   socket.on('message', (msg) => {
     console.log(msg);
-    io.emit('message', { text: msg });
+    io.emit('message', { text: msg.text });
   });
 >>>>>>> fff3b48d2c4c5f1eaf73a041a8021afdbd22e866
 
