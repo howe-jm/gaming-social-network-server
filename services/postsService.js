@@ -11,7 +11,12 @@ exports.insertPost = async (post_text, user_id) => {
 };
 
 exports.getUserPosts = async (user_id) => {
-  const posts = await db('entity_post').where({ user_id }).returning('*');
+  const posts = await db('entity_post')
+    .where({ user_id })
+    .join('users', {
+      'users.id': 'entity_post.user_id'
+    })
+    .select(['entity_id', 'username', 'post_text', 'created', 'last_updated']);
   return posts;
 };
 
