@@ -19,4 +19,4 @@ CREATE TABLE entity_like (
     entity_id BIGSERIAL PRIMARY KEY REFERENCES entity(entity_id) ON DELETE CASCADE,
     like_id BIGSERIAL REFERENCES entity(entity_id) ON DELETE CASCADE,
     user_id BIGSERIAL REFERENCES users(id) ON DELETE CASCADE
-)
+);
