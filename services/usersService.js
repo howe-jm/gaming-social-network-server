@@ -6,6 +6,7 @@ exports.insertUser = async (email, username, hashedPassword) => {
             .insert({ email, username, password: hashedPassword })
             .returning('*')
     )[0];
+    await db('profiles').insert({ user_id: user.id });
     return user;
 };
 

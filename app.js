@@ -30,5 +30,6 @@ app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/users', require('./routes/userRoutes'));
 app.use('/posts', require('./routes/postsRoutes'));
+app.use('/groups', require('./routes/groupsRoutes'));
 
 module.exports = app;

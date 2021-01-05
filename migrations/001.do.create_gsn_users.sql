@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id bigserial primary key,
+    id BIGSERIAL PRIMARY KEY,
     email TEXT NOT NULL UNIQUE,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,

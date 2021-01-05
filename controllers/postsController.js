@@ -2,9 +2,9 @@ const { insertPost, getUserPosts } = require('../services/postsService');
 
 exports.createPost = async (req, res) => {
   try {
-    const { content } = req.body;
+    const { post_text } = req.body;
     const user_id = req.user.id;
-    const post = await insertPost(content, user_id);
+    const post = await insertPost(post_text, user_id);
 
     if (!post) {
       return res.status(400).json({
