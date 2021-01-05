@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS entity_post;
+DROP TABLE IF EXISTS groups;
