@@ -47,7 +47,7 @@ router.post(
   ],
   createUser
 );
-
+router.get('/profile/:username');
 router.get('/:username', getProfileByUsername);
 
 module.exports = router;

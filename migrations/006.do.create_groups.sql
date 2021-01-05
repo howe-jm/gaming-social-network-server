@@ -1,7 +1,7 @@
 CREATE TABLE groups (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
-    group_name TEXT NOT NULL,
+    group_name TEXT NOT NULL UNIQUE,
     slug TEXT NOT NULL
 );
 
