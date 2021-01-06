@@ -42,4 +42,20 @@ exports.insertComment = async (entity_id, user_id, comment_text) => {
   }
 };
 
-exports.retrievePostComments = () => {};
+exports.retrievePostComments = async (entity_id) => {
+  try {
+    console.log(entity_id);
+    const comments = await db('entity_comment')
+      .where({ entity_id })
+      .join('users', {
+        'users.id': 'entity_comment.user_id'
+      })
+      .join('profiles', {
+        'profiles.user_id': 'entity_comment.user_id'
+      })
+      .returning('*');
+    return comments;
+  } catch (err) {
+    console.log(err);
+  }
+};
