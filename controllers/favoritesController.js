@@ -1,4 +1,8 @@
-const { insertGame, getGames, removeGame } = require('../services/favGamesService');
+const {
+  insertGame,
+  getGames,
+  removeGame
+} = require('../services/favoritesService');
 
 exports.getFavGames = async (req, res) => {
   try {
@@ -10,34 +14,34 @@ exports.getFavGames = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error: Could not get favorite games' }],
+      errors: [{ msg: 'Server error: Could not get favorite games' }]
     });
   }
 };
 
 exports.addGame = async (req, res) => {
   try {
-    const newFavorite = JSON.stringify(req.body.game_json);
+    const newFavorite = JSON.stringify(req.body.game);
     const user_id = req.user.id;
     const insertedGame = await insertGame(user_id, newFavorite);
 
     if (!insertedGame) {
       return res.status(400).json({
         success: false,
-        errors: [{ msg: 'Could not add game' }],
+        errors: [{ msg: 'Could not add game' }]
       });
     }
 
-    returnGame = JSON.parse(insertedGame);
+    insertedGame.game_json = JSON.parse(insertedGame.game_json);
 
     res.status(200).json({
       success: true,
-      returnGame,
+      game: insertedGame
     });
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error: Could not create comment' }],
+      errors: [{ msg: 'Server error: Could not add game' }]
     });
   }
 };
