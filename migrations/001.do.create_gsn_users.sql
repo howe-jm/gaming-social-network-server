@@ -4,6 +4,6 @@ CREATE TABLE users (
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
     role BOOLEAN NOT NULL DEFAULT false,
-    created TIMESTAMPTZ NOT NULL DEFAULT now(),
-    last_updated TIMESTAMPTZ NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
