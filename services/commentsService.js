@@ -24,18 +24,19 @@ exports.insertComment = async (entity_id, user_id, comment_text) => {
         .join('profiles', {
           'profiles.user_id': 'entity_comment.user_id'
         })
-        .select([
-          'entity_comment.id',
-          'entity_id',
-          'profile_url',
-          'entity_comment.user_id',
-          'parent_comment_id',
-          'comment_text',
-          'username',
-          'created_at',
-          'updated_at'
-        ])
+        .returning('*')
     )[0];
+    // .select([
+    //       'entity_comment.id',
+    //       'entity_id',
+    //       'profile_url',
+    //       'entity_comment.user_id',
+    //       'parent_comment_id',
+    //       'comment_text',
+    //       'username',
+    //       'created_at',
+    //       'updated_at'
+    //     ])
     return joinedComment;
   } catch (err) {
     console.log(err);
