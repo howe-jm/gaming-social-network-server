@@ -10,7 +10,30 @@ exports.insertPost = async (post_text, user_id) => {
         .returning('*')
     )[0];
 
-    return post;
+    const joinedPost = (
+      await db('entity_post')
+        .where({
+          'entity_post.user_id': user_id,
+          'entity_post.id': post.id
+        })
+        .join('users', {
+          'users.id': 'entity_post.user_id'
+        })
+        .join('profiles', {
+          'profiles.user_id': 'entity_post.user_id'
+        })
+        .select([
+          'entity_post.id',
+          'entity_id',
+          'profile_url',
+          'entity_post.user_id',
+          'post_text',
+          'username',
+          'created_at',
+          'updated_at'
+        ])
+    )[0];
+    return joinedPost;
   } catch (err) {
     console.log(err);
   }
@@ -22,7 +45,13 @@ exports.getUserPosts = async (user_id) => {
     .join('users', {
       'users.id': 'entity_post.user_id'
     })
-    .select(['entity_id', 'username', 'post_text', 'created', 'last_updated']);
+    .select([
+      'entity_id',
+      'username',
+      'post_text',
+      'created_at',
+      'last_updated'
+    ]);
   return posts;
 };
 
