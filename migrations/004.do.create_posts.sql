@@ -1,22 +1,28 @@
 CREATE TABLE entity (
-    entity_id BIGSERIAL PRIMARY KEY
+    id BIGSERIAL PRIMARY KEY
 );
 
 CREATE TABLE entity_comment (
-    entity_id BIGSERIAL PRIMARY KEY REFERENCES entity(entity_id) ON DELETE CASCADE,
-    comment_id BIGSERIAL REFERENCES entity(entity_id) ON DELETE CASCADE,
-    user_id BIGSERIAL REFERENCES users(id) ON DELETE CASCADE,
-    comment TEXT NOT NULL
+    id BIGSERIAL PRIMARY KEY,
+    entity_id BIGINT REFERENCES entity(id) ON DELETE CASCADE,
+    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+    parent_comment_id BIGINT DEFAULT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    comment_text TEXT NOT NULL
 );
 
 CREATE TABLE entity_post (
-    entity_id BIGSERIAL PRIMARY KEY REFERENCES entity(entity_id) ON DELETE CASCADE,
-    user_id BIGSERIAL REFERENCES users(id) ON DELETE CASCADE,
+    id BIGSERIAL PRIMARY KEY,
+    entity_id BIGINT REFERENCES entity(id) ON DELETE CASCADE,
+    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     post_text TEXT NOT NULL
 );
 
 CREATE TABLE entity_like (
-    entity_id BIGSERIAL PRIMARY KEY REFERENCES entity(entity_id) ON DELETE CASCADE,
-    like_id BIGSERIAL REFERENCES entity(entity_id) ON DELETE CASCADE,
-    user_id BIGSERIAL REFERENCES users(id) ON DELETE CASCADE
+    id BIGSERIAL PRIMARY KEY,
+    entity_id BIGINT REFERENCES entity(id) ON DELETE CASCADE,
+    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE
 );
