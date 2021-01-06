@@ -22,7 +22,13 @@ exports.getUserPosts = async (user_id) => {
     .join('users', {
       'users.id': 'entity_post.user_id'
     })
-    .select(['entity_id', 'username', 'post_text', 'created', 'last_updated']);
+    .select([
+      'entity_id',
+      'username',
+      'post_text',
+      'created_at',
+      'last_updated'
+    ]);
   return posts;
 };
 
