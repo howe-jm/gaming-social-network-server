@@ -3,20 +3,25 @@ CREATE TABLE entity (
 );
 
 CREATE TABLE entity_comment (
-    entity_id BIGSERIAL PRIMARY KEY REFERENCES entity(entity_id) ON DELETE CASCADE,
-    comment_id BIGSERIAL REFERENCES entity(entity_id) ON DELETE CASCADE,
+    id BIGSERIAL PRIMARY KEY,
+    entity_id BIGSERIAL REFERENCES entity(entity_id) ON DELETE CASCADE,
     user_id BIGSERIAL REFERENCES users(id) ON DELETE CASCADE,
-    comment TEXT NOT NULL
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    comment_text TEXT NOT NULL
 );
 
 CREATE TABLE entity_post (
-    entity_id BIGSERIAL PRIMARY KEY REFERENCES entity(entity_id) ON DELETE CASCADE,
+    id BIGSERIAL PRIMARY KEY,
+    entity_id BIGSERIAL REFERENCES entity(entity_id) ON DELETE CASCADE,
     user_id BIGSERIAL REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     post_text TEXT NOT NULL
 );
 
 CREATE TABLE entity_like (
-    entity_id BIGSERIAL PRIMARY KEY REFERENCES entity(entity_id) ON DELETE CASCADE,
-    like_id BIGSERIAL REFERENCES entity(entity_id) ON DELETE CASCADE,
+    id BIGSERIAL PRIMARY KEY,
+    entity_id BIGSERIAL REFERENCES entity(entity_id) ON DELETE CASCADE,
     user_id BIGSERIAL REFERENCES users(id) ON DELETE CASCADE
 );

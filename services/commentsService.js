@@ -6,7 +6,7 @@ exports.insertComment = async (entity_id, user_id, comment_text) => {
       .insert({
         entity_id,
         user_id,
-        comment: comment_text
+        comment_text
       })
       .returning('*')
   )[0];
