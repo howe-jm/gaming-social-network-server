@@ -1,13 +1,19 @@
 const db = require('../knex/knex');
 
 exports.insertPost = async (post_text, user_id) => {
-  const entity = (await db('entity').insert({}).returning('*'))[0];
-  const post = (
-    await db('entity_post')
-      .insert({ entity_id: entity.id, user_id, post_text })
-      .returning('*')
-  )[0];
-  return post;
+  try {
+    const entity = (await db('entity').insert({}).returning('*'))[0];
+
+    const post = (
+      await db('entity_post')
+        .insert({ entity_id: entity.id, user_id, post_text })
+        .returning('*')
+    )[0];
+
+    return post;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.getUserPosts = async (user_id) => {
