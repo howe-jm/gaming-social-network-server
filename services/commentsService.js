@@ -41,3 +41,5 @@ exports.insertComment = async (entity_id, user_id, comment_text) => {
     console.log(err);
   }
 };
+
+exports.retrievePostComments = () => {};
