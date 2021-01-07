@@ -42,7 +42,8 @@ exports.getGroups = async (req, res) => {
 exports.filterGroups = async (req, res) => {
   try {
     const { searchTerm } = req.query;
-    const groups = await getGroups(searchTerm);
+    const groups = await getGroups();
+
     const filteredGroups = groups.filter((group) =>
       group.group_name.includes(searchTerm)
     );
