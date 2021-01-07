@@ -1,19 +1,30 @@
 const db = require('../knex/knex');
 
-exports.getGames = async (user_id) => {
-  const games = await db
-    .from('fav_games')
-    .where('user_id', user_id)
-    .returning('*');
-  return games;
+exports.retrieveFavorites = async (user_id) => {
+  try {
+    const games = await db.from('fav_games').where({ user_id }).returning('*');
+    return games;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-exports.insertGame = async (user_id, newFavorite) => {
+exports.retrieveFavorite = async (user_id, game_id) => {
   try {
-    console.log(user_id, newFavorite);
+    const favorite = (
+      await db.from('fav_games').where({ user_id, game_id }).returning('*')
+    )[0];
+    return favorite;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.insertFavorite = async (user_id, game_id, newFavorite) => {
+  try {
     const game = (
       await db('fav_games')
-        .insert({ user_id, game_json: newFavorite })
+        .insert({ user_id, game_id, game_json: newFavorite })
         .returning('*')
     )[0];
     return game;
@@ -22,9 +33,13 @@ exports.insertGame = async (user_id, newFavorite) => {
   }
 };
 
-exports.removeGame = (user_id, toRemove) => {
-  return db('fav_games')
-    .where('user_id', user_id)
-    .andWhere('game_json', toRemove)
-    .delete();
+exports.removeFavorite = async (user_id, game_id) => {
+  try {
+    const deletedFavorite = await db('fav_games')
+      .where({ user_id, game_id })
+      .delete();
+    return deletedFavorite;
+  } catch (err) {
+    console.log(err);
+  }
 };

@@ -2,17 +2,22 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const {
-  getFavGames,
-  addGame,
-  removeGame
+  getFavorite,
+  getFavorites,
+  addFavorite,
+  deleteFavorite
 } = require('../controllers/favoritesController');
 
-router.post('/', passport.authenticate('jwt', { session: false }), addGame);
-router.delete(
-  '/',
+router.get('/', passport.authenticate('jwt', { session: false }), getFavorites);
+router.get(
+  '/:gameId',
   passport.authenticate('jwt', { session: false }),
-  removeGame
+  getFavorite
 );
-router.get('/', passport.authenticate('jwt', { session: false }), getFavGames);
-
+router.post('/', passport.authenticate('jwt', { session: false }), addFavorite);
+router.delete(
+  '/:gameId',
+  passport.authenticate('jwt', { session: false }),
+  deleteFavorite
+);
 module.exports = router;
