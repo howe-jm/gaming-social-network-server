@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+'use strict';
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -30,5 +32,6 @@ app.use('/users', require('./routes/userRoutes'));
 app.use('/posts', require('./routes/postsRoutes'));
 app.use('/comments', require('./routes/commentsRoutes'));
 app.use('/groups', require('./routes/groupsRoutes'));
+app.use('/favorites', require('./routes/favoritesRoutes'));
 
 module.exports = app;
