@@ -3,5 +3,6 @@ CREATE TABLE friends (
     created TIMESTAMPTZ default now(),
     user_a BIGINT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
     user_b BIGINT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+    msg TEXT DEFAULT NULL,
     pending BOOLEAN NOT NULL DEFAULT true
 );
