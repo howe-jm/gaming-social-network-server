@@ -17,9 +17,7 @@ exports.insertGroup = async (user_id, group_name) => {
     return group;
 };
 
-exports.getGroups = async (group_name) => {
-    const groups = await db('groups')
-        .where('group_name', group_name)
-        .returning('*');
+exports.getGroups = async () => {
+    const groups = await db('groups').returning('*');
     return groups;
 };
