@@ -9,10 +9,15 @@ exports.insertGroup = async (user_id, group_name) => {
         group_name,
         slug: await slugify(group_name, {
           lower: true,
-          strict: true
-        })
+          strict: true,
+        }),
       })
       .returning('*')
   )[0];
   return group;
+};
+
+exports.getGroups = async () => {
+  const groups = await db('groups').where('group_name', group_name).returning('*');
+  return groups;
 };
