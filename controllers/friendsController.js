@@ -42,3 +42,4 @@ exports.getAllPendingFriends = async (req, res) => {
 };
 
 // next function will be the delete controller
+
