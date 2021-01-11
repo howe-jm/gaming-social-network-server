@@ -1,5 +1,7 @@
 const db = require('../knex/knex');
 
+
+
 //user_a is requesting, user_b is the receiving
 //function returns all requests received 
 exports.getFriendReqs = async (user_b) => {
@@ -18,6 +20,15 @@ exports.getSentReqs = async (user_a) => {
       .returning("*");
     return friends;
 };
+
+exports.getCurrentFriends = async (user_b) => {
+    const friends = await db
+        .from('friends')
+        .where('user_b', user_b)
+        .andWhere('pending', false)
+        .returning('*');
+    return friends;
+}
 
 exports .getPendingReqs = async (user_b) => {
     const pendingReqs = await db
