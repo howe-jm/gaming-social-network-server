@@ -1,11 +1,9 @@
 const db = require('../knex/knex');
 
 
-// user_a is the sender, user_b is the receiver
 
-
-
-// the below function returns all requests received by user_b
+//user_a is requesting, user_b is the receiving
+//function returns all requests received 
 exports.getFriendReqs = async (user_b) => {
     const friends = await db
         .from('friends')
@@ -14,15 +12,14 @@ exports.getFriendReqs = async (user_b) => {
     return friends;
 };
 
-
-// the below function returns all outgoing friend requests for user_a
+//function returns all outgoing friend requests
 exports.getSentReqs = async (user_a) => {
     const friends = await db
-        .from('friends')
-        .where('user_a', user_a)
-        .returning('*');
+      .from("friends")
+      .where("user_a", user_a)
+      .returning("*");
     return friends;
-}; 
+};
 
 exports.getCurrentFriends = async (user_b) => {
     const friends = await db
@@ -31,10 +28,9 @@ exports.getCurrentFriends = async (user_b) => {
         .andWhere('pending', false)
         .returning('*');
     return friends;
-};
+}
 
-// the below function returns all pending friend requests for user_b
-exports.getPendingReqs = async (user_b) => {
+exports .getPendingReqs = async (user_b) => {
     const pendingReqs = await db
         .from('friends')
         .where('user_b', user_b)
@@ -43,15 +39,7 @@ exports.getPendingReqs = async (user_b) => {
     return pendingReqs;
 };
 
-
-exports.removeFriend = (user_b, user_a) => {
-    return db('friends')
-    .where('user_b', user_b)
-    .andWhere('user_a', user_a)
-    .delete();
-};
-
-exports.acceptFriend = async (user_b, user_a) => {
+exports.acceptFriend = async (user_b, user_a) => 
     const accepted = false;
     const acceptedFriend = await db
         .from('friends')
@@ -59,6 +47,12 @@ exports.acceptFriend = async (user_b, user_a) => {
         .andWhere('user_a', user_a)
         .update({pending: accepted});
     return acceptedFriend;
-};
+}
 
-exports.insertFriend = (user_id, username) => {};
+
+exports.removeFriend = (user_b, user_a) => {
+    return db('friends')
+    .where('user_b', user_b)
+    .andWhere('user_a', user_a)
+    .delete();
+};
