@@ -43,8 +43,6 @@ exports.getAllPendingFriends = async (req, res) => {
 
 // next function will be the delete controller
 
-<<<<<<< HEAD
-=======
 exports.deleteFriend = async (req, res) => {
     const user_b = req.friend.user_b;
     const user_a = req.friend.user_a;
@@ -52,4 +50,3 @@ exports.deleteFriend = async (req, res) => {
 
     res.status(200).end();
 };
->>>>>>> 30857e61d376427f6b82e27b9d621a46adf06524
