@@ -11,7 +11,8 @@ exports.getAllCurrentFriends = async (req, res) => {
     try {
         const user_b = req.user.id;
         const allCurrentFriends = await getCurrentFriends(user_b);
-        const returnAllCurrentFriends = allCurrentFriends.map((friend) => JSON.parse(friend.user_a))
+        // may need to change to friend.user_a
+        const returnAllCurrentFriends = allCurrentFriends.map((friend) => JSON.parse(friend))
 
         res.status(200).json({success: true, returnAllCurrentFriends});
     } catch (err) {
@@ -23,3 +24,19 @@ exports.getAllCurrentFriends = async (req, res) => {
 };
 
 // next function is to get all pending requests
+
+exports.getAllPendingFriends = async (req, res) => {
+    try {
+        const user_b = req.user.id;
+        const allPendingFriends = await getPendingReqs(user_b);
+        // may need to change to friend.user_a
+        const returnAllPendingFriends = allPendingFriends.map((friend) => JSON.parse(friend))
+
+        res.status(200).json({success: true, returnAllPendingFriends});
+    } catch (err) {
+        res.status(500).json({
+            success: false, 
+            errors: [{msg: 'Server error: Could not get pending friends'}]
+        });
+    }
+};
