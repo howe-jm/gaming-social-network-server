@@ -21,3 +21,8 @@ exports.getGroups = async () => {
   const groups = await db('groups').returning('*');
   return groups;
 };
+
+exports.retrieveGroup = async (slug) => {
+  const group = (await db('groups').where({ slug }).returning('*'))[0];
+  return group;
+};

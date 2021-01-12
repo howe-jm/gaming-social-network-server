@@ -9,18 +9,20 @@ const {
 } = require('../services/friendsService');
 
 exports.getAllCurrentFriends = async (req, res) => {
-    try {
-        const user_b = req.user.id;
-        const allCurrentFriends = await getCurrentFriends(user_b);
-        const returnAllCurrentFriends = allCurrentFriends.map((friend) => JSON.parse(friend.user_a));
+  try {
+    const user_b = req.user.id;
+    const allCurrentFriends = await getCurrentFriends(user_b);
+    const returnAllCurrentFriends = allCurrentFriends.map((friend) =>
+      JSON.parse(friend.user_a)
+    );
 
-        res.status(200).json({sucess: true, returnAllCurrentFriends})
-    } catch (err) {
-        res.status(500).json({
-            success: false,
-            errors: [{ msg: 'Server error: Could not get current friends'}]
-        })
-    }
+    res.status(200).json({ sucess: true, returnAllCurrentFriends });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      errors: [{ msg: 'Server error: Could not get current friends' }]
+    });
+  }
 };
 // next function is to get all pending requests
 exports.getAllPendingFriends = async (req, res) => {
@@ -35,7 +37,7 @@ exports.getAllPendingFriends = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: "Server error: Could not get pending friends" }],
+      errors: [{ msg: 'Server error: Could not get pending friends' }]
     });
   }
 };
@@ -43,14 +45,14 @@ exports.getAllPendingFriends = async (req, res) => {
 // next function will be the delete controller
 
 exports.deleteFriend = async (req, res) => {
-    const user_b = req.body.user_b;
-    const user_a = req.body.user_a;
-    removeFriend(user_b, user_a);
+  const user_b = req.body.user_b;
+  const user_a = req.body.user_a;
+  removeFriend(user_b, user_a);
 
-    res.status(200).end();
+  res.status(200).end();
 };
 
-// next function will be the friend accept/patch 
+// next function will be the friend accept/patch
 
 exports.acceptAFriend = async (req, res) => {
   try {
@@ -58,14 +60,15 @@ exports.acceptAFriend = async (req, res) => {
     const user_a = req.body.user_a;
     const acceptSelectedFriend = await acceptFriend(user_b, user_a);
     const returnAcceptedFriend = acceptSelectedFriend.map((friend) =>
-      JSON.parse(friend.user_a));
+      JSON.parse(friend.user_a)
+    );
 
-      res.status(200).json({sucess: true, returnAcceptedFriend});
+    res.status(200).json({ sucess: true, returnAcceptedFriend });
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error: Could not get added friend'}]
-  })
+      errors: [{ msg: 'Server error: Could not get added friend' }]
+    });
   }
 };
 
@@ -73,18 +76,17 @@ exports.sendFriendRequest = async (req, res) => {
   try {
     const user = req.user.id;
     const newFriend = req.body.user_b;
-    const message = req.body.msg;
-    console.log(user, newFriend, message);
-    const currentRequest = await requestFriend(user, newFriend, message);
-    const returnCurrentRequest = currentRequest.map((request) =>
-    JSON.parse(request));
-    
+    const message = req.body.message;
 
-    res.status(200).json({sucess: true, returnCurrentRequest});
+    console.log(user, newFriend, message);
+
+    const currentRequest = await requestFriend(user, newFriend, message);
+
+    res.status(200).json({ sucess: true, request: currentRequest });
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error: Could not request friend'}]
-  })
+      errors: [{ msg: 'Server error: Could not request friend' }]
+    });
   }
 };
