@@ -31,5 +31,6 @@ app.use('/posts', require('./routes/postsRoutes'));
 app.use('/comments', require('./routes/commentsRoutes'));
 app.use('/groups', require('./routes/groupsRoutes'));
 app.use('/favorites', require('./routes/favoritesRoutes'));
+app.use('/friends', require('./routes/friendsRoutes'));
 
 module.exports = app;
