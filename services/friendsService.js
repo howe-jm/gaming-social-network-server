@@ -56,3 +56,17 @@ exports.removeFriend = (user_b, user_a) => {
     .andWhere('user_a', user_a)
     .delete();
 };
+
+exports.requestFriend = async (user, newFriend, message) => {
+    try {
+        const request = (
+          await db('friends')
+            .insert({ user_a: user, user_b: newFriend, msg: message })
+            .returning('*')
+        )[0];
+        return request;
+      } catch (err) {
+        console.log(err);
+      }
+};
+

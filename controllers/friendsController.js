@@ -4,7 +4,8 @@ const {
   getPendingReqs,
   getCurrentFriends,
   removeFriend,
-  acceptFriend
+  acceptFriend,
+  requestFriend
 } = require('../services/friendsService');
 
 exports.getAllCurrentFriends = async (req, res) => {
@@ -64,6 +65,26 @@ exports.acceptAFriend = async (req, res) => {
     res.status(500).json({
       success: false,
       errors: [{ msg: 'Server error: Could not get added friend'}]
+  })
+  }
+};
+
+exports.sendFriendRequest = async (req, res) => {
+  try {
+    const user = req.user.id;
+    const newFriend = req.body.user_b;
+    const message = req.body.msg;
+    console.log(user, newFriend, message);
+    const currentRequest = await requestFriend(user, newFriend, message);
+    const returnCurrentRequest = currentRequest.map((request) =>
+    JSON.parse(request));
+    
+
+    res.status(200).json({sucess: true, returnCurrentRequest});
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      errors: [{ msg: 'Server error: Could not request friend'}]
   })
   }
 };

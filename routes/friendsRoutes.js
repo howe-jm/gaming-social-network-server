@@ -6,8 +6,10 @@ const {
     getAllCurrentFriends,
     getAllPendingFriends,
     deleteFriend,
-    acceptAFriend
+    acceptAFriend,
+    sendFriendRequest
 } = require('../controllers/friendsController');
+const { requestFriend } = require('../services/friendsService');
 
 
 //GET /friends - gets all friends associated with the user
@@ -47,6 +49,14 @@ router.patch(
         session: false,
     }),
     acceptAFriend
+);
+
+router.post(
+    '/request',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    sendFriendRequest
 );
 
 module.exports = router;
