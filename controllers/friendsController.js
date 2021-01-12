@@ -42,9 +42,28 @@ exports.getAllPendingFriends = async (req, res) => {
 // next function will be the delete controller
 
 exports.deleteFriend = async (req, res) => {
-    const user_b = req.friend.user_b;
-    const user_a = req.friend.user_a;
+    const user_b = req.body.user_b;
+    const user_a = req.body.user_a;
     removeFriend(user_b, user_a);
 
     res.status(200).end();
+};
+
+// next function will be the friend accept/patch 
+
+exports.acceptAFriend = async (req, res) => {
+  try {
+    const user_b = req.user.id;
+    const user_a = req.body.user_a;
+    const acceptSelectedFriend = await acceptFriend(user_b, user_a);
+    const returnAcceptedFriend = acceptSelectedFriend.map((friend) =>
+      JSON.parse(friend.user_a));
+
+      res.status(200).json({sucess: true, returnAcceptedFriend});
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      errors: [{ msg: 'Server error: Could not get added friend'}]
+  })
+  }
 };
