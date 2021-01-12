@@ -55,12 +55,12 @@ exports.deleteFriend = async (req, res) => {
 exports.acceptAFriend = async (req, res) => {
   try {
     const user_b = req.user.id;
-    const user_a = req.body.user_a;
+    const user_a = req.params.friendId;
     const acceptSelectedFriend = await acceptFriend(user_b, user_a);
-    const returnAcceptedFriend = acceptSelectedFriend.map((friend) =>
-      JSON.parse(friend.user_a));
+    // const returnAcceptedFriend = acceptSelectedFriend.map((friend) =>
+    //   JSON.parse(friend.user_a));
 
-      res.status(200).json({sucess: true, returnAcceptedFriend});
+      res.status(200).json({sucess: true, acceptSelectedFriend});
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -76,11 +76,10 @@ exports.sendFriendRequest = async (req, res) => {
     const message = req.body.msg;
     console.log(user, newFriend, message);
     const currentRequest = await requestFriend(user, newFriend, message);
-    const returnCurrentRequest = currentRequest.map((request) =>
-    JSON.parse(request));
+    
     
 
-    res.status(200).json({sucess: true, returnCurrentRequest});
+    res.status(200).json({sucess: true, currentRequest});
   } catch (err) {
     res.status(500).json({
       success: false,
