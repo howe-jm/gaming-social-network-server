@@ -56,8 +56,8 @@ exports.deleteFriend = async (req, res) => {
 
 exports.acceptAFriend = async (req, res) => {
   try {
+    const user_a = req.params.friendId;
     const user_b = req.user.id;
-    const user_a = req.body.user_a;
     const acceptSelectedFriend = await acceptFriend(user_b, user_a);
     const returnAcceptedFriend = acceptSelectedFriend.map((friend) =>
       JSON.parse(friend.user_a)
