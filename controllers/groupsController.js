@@ -2,8 +2,8 @@ const { insertGroup, getGroups } = require('../services/groupsService');
 
 exports.createGroup = async (req, res) => {
   try {
-    const { groupName } = req.body;
-    const group = await insertGroup(req.user.id, groupName);
+    const { group_name } = req.body;
+    const group = await insertGroup(req.user.id, group_name);
 
     if (!group) {
       return res.status(400).json({
