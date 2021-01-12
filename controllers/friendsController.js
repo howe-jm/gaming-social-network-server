@@ -58,12 +58,10 @@ exports.acceptAFriend = async (req, res) => {
   try {
     const user_a = req.params.friendId;
     const user_b = req.user.id;
+    const user_a = req.params.friendId;
     const acceptSelectedFriend = await acceptFriend(user_b, user_a);
-    const returnAcceptedFriend = acceptSelectedFriend.map((friend) =>
-      JSON.parse(friend.user_a)
-    );
 
-    res.status(200).json({ sucess: true, returnAcceptedFriend });
+    res.status(200).json({ sucess: true, acceptSelectedFriend });
   } catch (err) {
     res.status(500).json({
       success: false,
