@@ -17,33 +17,35 @@ const {
 
 
 router.get('/', passport.authenticate('jwt', { session: false}), getAllCurrentFriends);
-const {
-  getAllCurrentFriends,
-  getAllPendingFriends,
-  deleteFriends,
-  acceptAFriend,
-} = require("../controllers/friendsController");
+
 
 router.get(
-  "/",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
-  getAllCurrentFriends
+    '/',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    getAllCurrentFriends
 );
 router.get(
-  "/requests",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
-  getAllPendingFriends
+    '/requests',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    getAllPendingFriends
 );
 router.delete(
-  "/:friendId",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
-  deleteFriends
+    '/:friendId',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    deleteFriend
 );
-router.patch("/:friendId");
+
+router.patch(
+    '/:friendId',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    acceptAFriend
+);
 

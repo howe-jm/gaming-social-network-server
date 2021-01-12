@@ -39,7 +39,7 @@ exports .getPendingReqs = async (user_b) => {
     return pendingReqs;
 };
 
-exports.acceptFriend = async (user_b, user_a) => 
+exports.acceptFriend = async (user_b, user_a) => {
     const accepted = false;
     const acceptedFriend = await db
         .from('friends')
