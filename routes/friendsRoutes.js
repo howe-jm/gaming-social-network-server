@@ -49,3 +49,4 @@ router.patch(
     acceptAFriend
 );
 
+module.exports = router;
