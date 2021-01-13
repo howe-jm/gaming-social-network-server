@@ -31,7 +31,18 @@ exports.getUserIdByName = async (username) => {
   }
 };
 
-exports.getUserProfile = (userId) => {
-  console.log(userId);
-  return db('profiles').where('user_id', userId).first();
+exports.getUserProfile = async (userId) => {
+  try {
+    const userProfile = (
+      await db('profiles')
+        .where('user_id', userId)
+        .join('users', {
+          'users.id': 'profiles.user_id'
+        })
+        .returning('*')
+    )[0];
+    return userProfile;
+  } catch (err) {
+    console.log(err);
+  }
 };
