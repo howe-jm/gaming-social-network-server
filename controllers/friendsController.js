@@ -60,7 +60,7 @@ exports.acceptAFriend = async (req, res) => {
     const user_b = req.user.id;
     const acceptSelectedFriend = await acceptFriend(user_b, user_a);
 
-    res.status(200).json({ sucess: true, acceptSelectedFriend });
+    res.status(200).json({ success: true, acceptSelectedFriend });
   } catch (err) {
     res.status(500).json({
       success: false,
