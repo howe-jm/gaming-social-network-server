@@ -14,10 +14,10 @@ const { createTables, dropTables, createUser } = require('./testHelpers');
 
 
 describe('/friends', () => {
-    it('/friends should return all current friends', async () => {
+    it('/friends should verify token and return all current friends', async () => {
         await dropTables();
         await createTables();
-        const userA = await createUser({
+        const { token } = await createUser({
             username: 'dariss',
             email: 'dariss@example.com',
             password: 'pass123word'
@@ -26,21 +26,19 @@ describe('/friends', () => {
             .get('/friends')
             .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
             .expect(200);
-        return expect(body).to.have.keys('email', 'username', )
     })
 
     it('/requests should return all pending requests', async () => {
         await dropTables();
-        await createUser();
-        const userA = await createUser({
-          username: "dariss",
-          email: "dariss@example.com",
+        await createTables();
+        const { token } = await createUser({
+          username: "darriss",
+          email: "darriss@example.com",
           password: "pass123word",
         });
         const { body } = await request(app)
-            .get('/friends')
+            .get('/friends/requests')
             .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
             .expect(200);
-        return expect(body).to.have.keys('pending')
     })
 })
