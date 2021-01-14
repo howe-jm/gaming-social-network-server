@@ -3,15 +3,6 @@ const { expect } = require('chai');
 const request = require('supertest');
 const { createTables, dropTables, createUser } = require('./testHelpers');
 
-// login to userA to get all current friends
-// login to userA to get all pending requests
-
-// create 2 users
-// UserA send friend request to UserB
-// login to UserB
-// UserB delete a friend
-// UserB accept a friend
-
 
 describe('/friends', () => {
     it('/friends should verify token and return all current friends', async () => {
