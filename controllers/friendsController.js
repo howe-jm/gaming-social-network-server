@@ -58,7 +58,6 @@ exports.acceptAFriend = async (req, res) => {
   try {
     const user_a = req.params.friendId;
     const user_b = req.user.id;
-    const user_a = req.params.friendId;
     const acceptSelectedFriend = await acceptFriend(user_b, user_a);
 
     res.status(200).json({ sucess: true, acceptSelectedFriend });
