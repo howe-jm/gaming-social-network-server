@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const { body } = require('express-validator');
-const { login } = require('../controllers/authController');
+var bodyParser = require('body-parser');
+const { updateUserProfileBio } = require('../controllers/profilesController');
 
-router.post('/profile/:username');
+router.patch('/:username', bodyParser.json(), updateUserProfileBio);
 
 module.exports = router;
