@@ -29,8 +29,8 @@ describe("/users/:username should return user by id", () => {
       password: "pass123word",
     });
     const { body } = await request(app)
-      .get("/users/:username")
+      .get("/users/dariss")
       .set({ Authorization: `Bearer ${token}`, Accept: "application/json" })
-      .expect(500);
+      .expect(200);
   });
 });
