@@ -8,6 +8,7 @@ exports.getUserProfile = async (id) => {
     return profile;
 };
 
+<<<<<<< HEAD
 exports.updateUserBio = async (bio, id) => {
     const profile = (
         await db('profiles')
@@ -16,4 +17,30 @@ exports.updateUserBio = async (bio, id) => {
             .returning('*')
     )[0];
     return profile;
+=======
+exports.updateUserBio = async (user_bio, user_id) => {
+    const profile = (
+        await db('profiles')
+            .update('user_bio', user_bio)
+            .where({ user_id: user_id })
+            .returning('*')
+    )[0];
+    return profile;
+};
+
+exports.getUserImages = async (user_id) => {
+    const images = await db('user_images')
+        .select('*')
+        .where({ user_id: user_id })
+        .returning('*');
+    return images;
+};
+
+exports.postUserImage = async (user_id, imageURL) => {
+    await db('user_images').insert({
+        user_id,
+        image_url: imageURL,
+    });
+    return this.getUserImages(user_id);
+>>>>>>> 16093720193e9c517dde209c8f1191e63be31a1b
 };
