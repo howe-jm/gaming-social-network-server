@@ -57,7 +57,7 @@ describe('/groups', () => {
   });
 });
 
-describe.only('/groups/filter', () => {
+describe('/groups/filter', () => {
   it('/should GET filtered groups', async () => {
     await dropTables();
     await createTables();
@@ -69,17 +69,14 @@ describe.only('/groups/filter', () => {
 
     const newGroup = {
       group_name: 'unmatched test group',
-      slug: '1',
     };
     const newGroupTwo = {
       group_name: 'League of Legends',
-      slug: '1',
     };
     const newGroupThree = {
       group_name: 'Apex Legends',
-      slug: '1',
     };
-    const { body } = await request(app)
+    const { bodyOne } = await request(app)
       .post('/groups')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newGroup);
@@ -91,13 +88,47 @@ describe.only('/groups/filter', () => {
       .post('/groups')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newGroupThree);
-    const { groupBody } = await request(app)
+    const { body } = await request(app)
       .get('/groups/filter')
       .query({ searchTerm: 'Legends' })
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .expect(200)
       .expect((res) => {
-        console.log(res.body);
+        expect(res.body.filteredGroups[0].group_name).to.eql(newGroupTwo.group_name);
+        expect(res.body.filteredGroups[0]).to.have.property('id');
+        expect(res.body.filteredGroups[0]).to.have.property('slug');
+        expect(res.body.filteredGroups[1].group_name).to.eql(newGroupThree.group_name);
+        expect(res.body.filteredGroups[1]).to.have.property('id');
+        expect(res.body.filteredGroups[1]).to.have.property('slug');
+      });
+    return body;
+  });
+});
+
+describe('/groups/:slug', () => {
+  it('/should GET a group by slug', async () => {
+    await dropTables();
+    await createTables();
+    const { token } = await createUser({
+      username: 'darriss',
+      email: 'darriss@example.com',
+      password: 'pass123word',
+    });
+    const newGroup = {
+      group_name: 'League of Legends',
+    };
+    const { bodyGroup } = await request(app)
+      .post('/groups')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .send(newGroup);
+
+    const { body } = await request(app)
+      .get('/groups/league-of-legends')
+      .query({ searchTerm: 'Legends' })
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.group.name).to.eql(newGroup.name);
       });
   });
 });

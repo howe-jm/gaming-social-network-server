@@ -41,7 +41,6 @@ exports.getGroups = async (req, res) => {
 
 exports.filterGroups = async (req, res) => {
   try {
-    console.log('TEST TEST');
     const { searchTerm } = req.query;
     const groups = await getGroups();
 
