@@ -16,10 +16,19 @@ describe('PATCH /:username', () => {
       user_id: '1',
       user_bio: 'This is a test bio.',
     };
+
+    const { body } = await request(app)
+      .patch('/profiles/dom')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .send(updatedBio)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.profile.user_bio).to.eql(updatedBio.user_bio);
+      });
   });
 });
 
-describe.only('POST /:username/images', () => {
+describe('POST /:username/images', () => {
   it('Should upload and respond with an image', async () => {
     await dropTables();
     await createTables();
@@ -34,12 +43,13 @@ describe.only('POST /:username/images', () => {
     };
 
     const { body } = await request(app)
-      .post('/users/dom/images')
+      .post('/profiles/dom/images')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newImage)
       .expect(200)
       .expect((res) => {
-        console.log(res);
+        expect(res.body.images[0].image_url).to.eql(newImage.imageURL);
+        expect(res.body.images[0]).to.have.property('id');
       });
   });
 });
@@ -53,10 +63,28 @@ describe('GET /:username/images', () => {
       email: 'dom@example.com',
       password: '123456',
     });
+
+    const newImage = {
+      user_id: '1',
+      imageURL: './testAssets/test.jpg',
+    };
+
+    await request(app)
+      .post('/profiles/dom/images')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .send(newImage);
+
+    const { body } = await request(app)
+      .get('/profiles/dom/images')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.images[0].image_url).to.eql(newImage.imageURL);
+      });
   });
 });
 
-describe('PATCH /update/image', () => {
+describe.only('PATCH /update/image', () => {
   it('Should update the user profile image', async () => {
     await dropTables();
     await createTables();
@@ -65,5 +93,12 @@ describe('PATCH /update/image', () => {
       email: 'dom@example.com',
       password: '123456',
     });
+    const { body } = await request(app)
+      .patch('/profiles/update/image')
+      .field('field-name', 'field value')
+      .attach('image', './testAssets/test.jpg')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .expect(200)
+      .expect((res) => console.log(res));
   });
 });
