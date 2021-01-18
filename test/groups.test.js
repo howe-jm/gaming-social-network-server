@@ -17,11 +17,11 @@ describe('/groups', () => {
       group_name: '1',
       slug: '1',
     };
-    const { body } = await request(app)
+    await request(app)
       .post('/groups')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newGroup);
-    const { groupBody } = await request(app)
+    const { body } = await request(app)
       .get('/groups')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .expect(200)
@@ -76,15 +76,15 @@ describe('/groups/filter', () => {
     const newGroupThree = {
       group_name: 'Apex Legends',
     };
-    const { bodyOne } = await request(app)
+    await request(app)
       .post('/groups')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newGroup);
-    const { bodyTwo } = await request(app)
+    await request(app)
       .post('/groups')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newGroupTwo);
-    const { bodyThree } = await request(app)
+    await request(app)
       .post('/groups')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newGroupThree);
@@ -117,7 +117,7 @@ describe('/groups/:slug', () => {
     const newGroup = {
       group_name: 'League of Legends',
     };
-    const { bodyGroup } = await request(app)
+    await request(app)
       .post('/groups')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newGroup);

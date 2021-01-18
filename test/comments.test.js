@@ -16,7 +16,7 @@ describe('/comments', () => {
       user_id: 1,
       post_text: 'Test post text',
     };
-    const { body } = await request(app)
+    await request(app)
       .post('/posts')
       .send(newPost)
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' });

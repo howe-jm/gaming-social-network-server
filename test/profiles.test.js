@@ -12,10 +12,14 @@ describe('PATCH /:username', () => {
       email: 'dom@example.com',
       password: '123456',
     });
+    const updatedBio = {
+      user_id: '1',
+      user_bio: 'This is a test bio.',
+    };
   });
 });
 
-describe('POST /:username/images', () => {
+describe.only('POST /:username/images', () => {
   it('Should upload and respond with an image', async () => {
     await dropTables();
     await createTables();
@@ -24,6 +28,19 @@ describe('POST /:username/images', () => {
       email: 'dom@example.com',
       password: '123456',
     });
+    const newImage = {
+      user_id: '1',
+      imageURL: './testAssets/test.jpg',
+    };
+
+    const { body } = await request(app)
+      .post('/users/dom/images')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .send(newImage)
+      .expect(200)
+      .expect((res) => {
+        console.log(res);
+      });
   });
 });
 
