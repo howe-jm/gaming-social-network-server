@@ -84,20 +84,20 @@ describe('GET /:username/images', () => {
   });
 });
 
-describe.only('PATCH /update/image', () => {
-  it('Should update the user profile image', async () => {
-    await dropTables();
-    await createTables();
-    const { token } = await createUser({
-      username: 'dom',
-      email: 'dom@example.com',
-      password: '123456',
-    });
-    const { body } = await request(app)
-      .patch('/profiles/update/image')
-      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
-      .file('image', './testAssets/test.jpg')
-      .expect(200)
-      .expect((res) => console.log(res.body));
-  });
-});
+// describe.only('PATCH /update/image', () => {
+//   it('Should update the user profile image', async () => {
+//     await dropTables();
+//     await createTables();
+//     const { token } = await createUser({
+//       username: 'dom',
+//       email: 'dom@example.com',
+//       password: '123456',
+//     });
+//     const { body } = await request(app)
+//       .patch('/profiles/update/image')
+//       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+//       .attach('image', './testAssets/test.jpg')
+//       .expect(200)
+//       .expect((res) => console.log(res.body));
+//   });
+// });
