@@ -17,10 +17,23 @@ exports.insertGroup = async (user_id, group_name) => {
   return group;
 };
 
-exports.getGroups = async () => {
-  console.log('123');
-  const groups = await db('groups').returning('*');
-  return groups;
+exports.getGroups = async (searchTerm) => {
+  try {
+    let groups = await db('groups').returning('*');
+
+    let filteredGroups = groups;
+
+    if (searchTerm && searchTerm.trim('').length) {
+      const results = filteredGroups.filter((group) =>
+        group.group_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      filteredGroups = results;
+    }
+
+    return filteredGroups;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.retrieveGroup = async (slug) => {

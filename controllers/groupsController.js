@@ -31,7 +31,15 @@ exports.createGroup = async (req, res) => {
 
 exports.getGroups = async (req, res) => {
   try {
-    const groups = await getGroups();
+    const searchTerm = req.query.searchTerm;
+    const groups = await getGroups(searchTerm);
+
+    if (!groups) {
+      return res.status(400).json({
+        success: false,
+        errors: [{ msg: 'Could not get groups' }]
+      });
+    }
 
     return res.status(200).json({ success: true, groups });
   } catch (err) {
@@ -39,33 +47,6 @@ exports.getGroups = async (req, res) => {
     res.status(500).json({
       success: false,
       errors: [{ msg: 'Server error' }]
-    });
-  }
-};
-
-exports.filterGroups = async (req, res) => {
-  console.log(req.query)
-  try {
-    const { searchTerm } = req.query;
-    const groups = await getGroups();
-
-    const filteredGroups = groups.filter((group) =>
-      group.group_name.includes(searchTerm)
-    );
-
-    if (!filteredGroups) {
-      return res.status(400).json({
-        success: false,
-        errors: [{ message: 'Group not found' }]
-      });
-    }
-
-    return res.status(200).json({ success: true, filteredGroups });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      success: false,
-      errors: [{ msg: 'Server error ' }]
     });
   }
 };
