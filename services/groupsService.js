@@ -18,7 +18,7 @@ exports.insertGroup = async (user_id, group_name) => {
 };
 
 exports.getGroups = async () => {
- console.log('123')
+  console.log('123');
   const groups = await db('groups').returning('*');
   return groups;
 };
