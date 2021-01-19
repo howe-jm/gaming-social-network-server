@@ -95,10 +95,9 @@ describe.only('PATCH /update/image', () => {
     });
     const { body } = await request(app)
       .patch('/profiles/update/image')
-      .field('field-name', 'field value')
-      .attach('image', './testAssets/test.jpg')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .file('image', './testAssets/test.jpg')
       .expect(200)
-      .expect((res) => console.log(res));
+      .expect((res) => console.log(res.body));
   });
 });
