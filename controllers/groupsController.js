@@ -3,7 +3,9 @@ const { insertGroup, getGroups, retrieveGroup } = require('../services/groupsSer
 exports.createGroup = async (req, res) => {
   try {
     const { group_name } = req.body;
-    const group = await insertGroup(req.user.id, group_name);
+    const image_url = req.file.location;
+
+    const group = await insertGroup(req.user.id, group_name, image_url);
 
     if (!group) {
       return res.status(400).json({
@@ -11,6 +13,8 @@ exports.createGroup = async (req, res) => {
         errors: [{ msg: 'Could not create group' }],
       });
     }
+
+    console.log(group);
 
     res.status(200).json({
       success: true,
@@ -27,7 +31,8 @@ exports.createGroup = async (req, res) => {
 
 exports.getGroups = async (req, res) => {
   try {
-    const groups = await getGroups();
+    const searchTerm = req.query.searchTerm;
+    const groups = await getGroups(searchTerm);
 
     return res.status(200).json({ success: true, groups });
   } catch (err) {
@@ -50,10 +55,16 @@ exports.filterGroups = async (req, res) => {
       return res.status(400).json({
         success: false,
         errors: [{ message: 'Group not found?' }],
+
+    if (!groups) {
+      return res.status(400).json({
+        success: false,
+        errors: [{ msg: 'Could not get groups' }]
+
       });
     }
 
-    return res.status(200).json({ success: true, filteredGroups });
+    return res.status(200).json({ success: true, groups });
   } catch (err) {
     console.log(err);
     res.status(500).json({
