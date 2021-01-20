@@ -3,20 +3,25 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
+
 const { insertUser, getUserIdByName, getUserProfile, getUserSearch } = require('../services/usersService');
 
+
 exports.createUser = async (req, res) => {
-  try {
-    const errors = validationResult(req);
+    try {
+        const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ success: false, errors: errors.array() });
-    }
+        if (!errors.isEmpty()) {
+            return res
+                .status(400)
+                .json({ success: false, errors: errors.array() });
+        }
 
-    const { email, username, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+        const { email, username, password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await insertUser(email, username, hashedPassword);
+        const user = await insertUser(email, username, hashedPassword);
+
 
     const token = jwt.sign(
       {
@@ -44,12 +49,14 @@ exports.createUser = async (req, res) => {
       errors: [{ msg: 'Server error: Failed to create user' }],
     });
   }
+
 };
 
 exports.getProfileByUsername = async (req, res) => {
-  try {
-    const { id } = await getUserIdByName(req.params.username);
-    const profile = await getUserProfile(id);
+    try {
+        const { id } = await getUserIdByName(req.params.username);
+        const profile = await getUserProfile(id);
+
 
     if (!profile) {
       return res.status(400).json({
@@ -90,4 +97,23 @@ exports.getUsers = async (req, res) => {
       errors: [{ msg: 'Server error' }],
     });
   }
+
+        if (!profile) {
+            return res.status(400).json({
+                success: false,
+                errors: [{ msg: 'Could not get profile' }],
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            profile,
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            errors: [{ msg: 'Could not get profile' }, { msg: err.message }],
+        });
+    }
+
 };
