@@ -35,7 +35,7 @@ describe('/users/:username should return user by id', () => {
   });
 });
 
-describe.only('/users/search should search for usernames matching the search term', () => {
+describe('/users/search should search for usernames matching the search term', () => {
   it('should return all usernames containing the search term regardless of case', async () => {
     await dropTables();
     await createTables();

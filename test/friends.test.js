@@ -32,7 +32,7 @@ describe('/friends', () => {
       .expect(200);
   });
 
-  it('/requests should send friend request', async () => {
+  it.only('/requests should send friend request', async () => {
     await dropTables();
     await createTables();
     const { token } = await createUser({
@@ -57,6 +57,7 @@ describe('/friends', () => {
       .send(newRequest)
       .expect(200)
       .expect((res) => {
+        console.log(res.body);
         expect(res.body.request.user_b).to.eql(newRequest.user_b);
         expect(res.body.request.msg).to.eql(newRequest.message);
         expect(res.body.request).to.have.property('friends_id');
