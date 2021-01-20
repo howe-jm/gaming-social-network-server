@@ -4,7 +4,6 @@ const passport = require('passport');
 const {
   createGroup,
   getGroups,
-  filterGroups,
   getGroup
 } = require('../controllers/groupsController');
 
@@ -14,12 +13,6 @@ router.get(
   '/:slug',
   passport.authenticate('jwt', { session: false }),
   getGroup
-);
-
-router.get(
-  '/filter',
-  passport.authenticate('jwt', { session: false }),
-  filterGroups
 );
 
 module.exports = router;
