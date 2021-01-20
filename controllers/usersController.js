@@ -72,7 +72,6 @@ exports.getProfileByUsername = async (req, res) => {
 
 exports.getUsers = async (req, res) => {
   try {
-    console.log('Ping');
     const searchTerm = req.query.searchTerm;
     const users = await getUserSearch(searchTerm);
 

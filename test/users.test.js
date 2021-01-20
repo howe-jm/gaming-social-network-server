@@ -60,6 +60,11 @@ describe.only('/users/search should search for usernames matching the search ter
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .query({ searchTerm: 'matchname' })
       .expect(200)
-      .expect((res) => console.log(res.body));
+      .expect((res) => {
+        expect(res.body.users[0].id).to.eql('1');
+        expect(res.body.users[1].id).to.eql('2');
+        expect(res.body.users[0].username).to.eql('MatchName');
+        expect(res.body.users[1].username).to.eql('UnexactMatchNamePass');
+      });
   });
 });
