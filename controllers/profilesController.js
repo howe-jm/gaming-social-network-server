@@ -1,4 +1,9 @@
-const { updateUserBio } = require('../services/profilesService');
+const {
+    updateUserBio,
+    getUserImages,
+    postUserImage,
+} = require('../services/profilesService');
+const { getUserIdByName } = require('../services/usersService');
 
 exports.updateUserProfileBio = async (req, res) => {
     try {
