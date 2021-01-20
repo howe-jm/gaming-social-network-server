@@ -36,7 +36,7 @@ describe('/users/:username should return user by id', () => {
 });
 
 describe.only('/users/search should search for usernames matching the search term', () => {
-  it('/users/search should search for usernames matching the search term', async () => {
+  it('should return all usernames containing the search term regardless of case', async () => {
     await dropTables();
     await createTables();
     const { token } = await createUser({
