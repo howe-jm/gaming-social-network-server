@@ -37,6 +37,12 @@ exports.getGroups = async (searchTerm) => {
 };
 
 exports.retrieveGroup = async (slug) => {
-  const group = (await db('groups').where({ slug }).returning('*'))[0];
-  return group;
+  try {
+    const group = (
+      await db('groups').where({ slug: slug.toLowerCase() }).returning('*')
+    )[0];
+    return group;
+  } catch (err) {
+    console.log(err);
+  }
 };
