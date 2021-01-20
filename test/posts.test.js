@@ -40,12 +40,12 @@ describe('/post', () => {
       user_id: '1',
       post_text: 'Test post text',
     };
-    const { bodyPost } = await request(app)
+    await request(app)
       .post('/posts')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newPost);
 
-    const { Post } = await request(app)
+    const { body } = await request(app)
       .get('/posts')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newPost)
@@ -70,7 +70,7 @@ describe('/posts/comments/:entityId', async () => {
       user_id: 1,
       post_text: 'Test post text',
     };
-    const { body } = await request(app)
+    await request(app)
       .post('/posts')
       .send(newPost)
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' });
@@ -80,13 +80,13 @@ describe('/posts/comments/:entityId', async () => {
       entity_id: '1',
       user_id: '1',
     };
-    const { bodyComment } = await request(app)
+    await request(app)
       .post('/comments')
       .send(newComment)
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' });
   });
 
-  const { bodyCommentId } = await request(app)
+  const { body } = await request(app)
     .get('/posts/comments/1')
     .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
     .expect(200)

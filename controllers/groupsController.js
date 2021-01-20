@@ -1,8 +1,4 @@
-const {
-  insertGroup,
-  getGroups,
-  retrieveGroup
-} = require('../services/groupsService');
+const { insertGroup, getGroups, retrieveGroup } = require('../services/groupsService');
 
 exports.createGroup = async (req, res) => {
   try {
@@ -14,7 +10,7 @@ exports.createGroup = async (req, res) => {
     if (!group) {
       return res.status(400).json({
         success: false,
-        errors: [{ msg: 'Could not create group' }]
+        errors: [{ msg: 'Could not create group' }],
       });
     }
 
@@ -22,13 +18,13 @@ exports.createGroup = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      group
+      group,
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error' }]
+      errors: [{ msg: 'Server error' }],
     });
   }
 };
@@ -38,10 +34,33 @@ exports.getGroups = async (req, res) => {
     const searchTerm = req.query.searchTerm;
     const groups = await getGroups(searchTerm);
 
+    return res.status(200).json({ success: true, groups });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      errors: [{ msg: 'Server error' }],
+    });
+  }
+};
+
+exports.filterGroups = async (req, res) => {
+  try {
+    const { searchTerm } = req.query;
+    const groups = await getGroups();
+
+    const filteredGroups = groups.filter((group) => group.group_name.includes(searchTerm));
+
+    if (!filteredGroups) {
+      return res.status(400).json({
+        success: false,
+        errors: [{ message: 'Group not found?' }],
+
     if (!groups) {
       return res.status(400).json({
         success: false,
         errors: [{ msg: 'Could not get groups' }]
+
       });
     }
 
@@ -50,7 +69,7 @@ exports.getGroups = async (req, res) => {
     console.log(err);
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error' }]
+      errors: [{ msg: 'Server error ' }],
     });
   }
 };
@@ -63,7 +82,7 @@ exports.getGroup = async (req, res) => {
     if (!group) {
       return res.status(400).json({
         success: false,
-        errors: [{ message: 'Group not found' }]
+        errors: [{ message: 'Group not found' }],
       });
     }
 
@@ -72,7 +91,7 @@ exports.getGroup = async (req, res) => {
     console.log(err);
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error ' }]
+      errors: [{ msg: 'Server error ' }],
     });
   }
 };
