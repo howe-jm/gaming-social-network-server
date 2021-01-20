@@ -7,7 +7,9 @@ const {
 exports.createGroup = async (req, res) => {
   try {
     const { group_name } = req.body;
-    const group = await insertGroup(req.user.id, group_name);
+    const image_url = req.file.location;
+
+    const group = await insertGroup(req.user.id, group_name, image_url);
 
     if (!group) {
       return res.status(400).json({
@@ -15,6 +17,8 @@ exports.createGroup = async (req, res) => {
         errors: [{ msg: 'Could not create group' }]
       });
     }
+
+    console.log(group);
 
     res.status(200).json({
       success: true,
