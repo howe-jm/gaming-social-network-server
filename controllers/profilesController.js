@@ -1,7 +1,6 @@
 const {
     updateUserBio,
     getUserImages,
-    getUserProfile,
     postUserImage,
 } = require('../services/profilesService');
 const { getUserIdByName } = require('../services/usersService');

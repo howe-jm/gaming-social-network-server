@@ -10,7 +10,7 @@ describe('/auth', () => {
     const user = await createUser({
       username: 'dom',
       email: 'dom@example.com',
-      password: '123456'
+      password: '123456',
     });
     const { body } = await request(app)
       .post('/auth/login')
@@ -26,7 +26,7 @@ describe('/auth', () => {
     const { token } = await createUser({
       username: 'dom',
       email: 'dom@example.com',
-      password: '123456'
+      password: '123456',
     });
     const { body } = await request(app)
       .get('/auth/verifyJWT')
