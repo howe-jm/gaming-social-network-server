@@ -3,10 +3,12 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
+
 const {
     insertUser,
     getUserIdByName,
     getUserProfile,
+    getUserSearch,
 } = require('../services/usersService');
 
 exports.createUser = async (req, res) => {
@@ -72,6 +74,28 @@ exports.getProfileByUsername = async (req, res) => {
         res.status(500).json({
             success: false,
             errors: [{ msg: 'Could not get profile' }, { msg: err.message }],
+        });
+    }
+};
+
+exports.getUsers = async (req, res) => {
+    try {
+        const searchTerm = req.query.searchTerm;
+        const users = await getUserSearch(searchTerm);
+
+        if (!users) {
+            return res.status(400).json({
+                success: false,
+                errors: [{ msg: 'Could not get users' }],
+            });
+        }
+
+        return res.status(200).json({ success: true, users });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            errors: [{ msg: 'Server error' }],
         });
     }
 };

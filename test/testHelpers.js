@@ -18,22 +18,6 @@ exports.createUser = async ({ username, email, password }) => {
   }
 };
 
-// exports.createComment = async ({ entity_id, user_id, comment_text }) => {
-//   try {
-//     const res = await request(app)
-//       .post('/comments')
-//       .send({ entity_id, user_id, comment_text })
-//       .set('Accept', 'application/json');
-//     return {
-//       entity_id: res.body.entity_id,
-//       user_id: res.body.user_id,
-//       comment_text: res.body.comment_text,
-//     };
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 exports.dropTables = async () => {
   try {
     return await postgrator.migrate('0');
