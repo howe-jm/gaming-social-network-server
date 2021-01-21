@@ -1,41 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-
 const {
-    createGroup,
-    getGroups,
-    filterGroups,
-    getGroup,
+  createGroup,
+  getGroups,
+  getGroup
 } = require('../controllers/groupsController');
-
-router.post('/', passport.authenticate('jwt', { session: false }), createGroup);
-router.get('/', passport.authenticate('jwt', { session: false }), getGroups);
-router.get(
-    '/filter',
-    passport.authenticate('jwt', { session: false }),
-    filterGroups
-);
-router.get(
-    '/:slug',
-    passport.authenticate('jwt', { session: false }),
-    getGroup
-);
-
 const uploadImage = require('../services/imagesService');
 
-router.post(
-    '/',
-    passport.authenticate('jwt', { session: false }),
-    uploadImage.single('image'),
-    createGroup
-);
-
 router.get('/', passport.authenticate('jwt', { session: false }), getGroups);
 router.get(
-    '/:slug',
-    passport.authenticate('jwt', { session: false }),
-    getGroup
+  '/:slug',
+  passport.authenticate('jwt', { session: false }),
+  getGroup
+);
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  uploadImage.single('image'),
+  createGroup
 );
 
 module.exports = router;

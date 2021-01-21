@@ -1,12 +1,21 @@
 const slugify = require('slugify');
 const db = require('../knex/knex');
 
-exports.insertGroup = async (user_id, group_name, image_url) => {
+exports.insertGroup = async (
+  user_id,
+  group_name,
+  group_description,
+  image_url
+) => {
+  const entity = (await db('entity').insert({}).returning('*'))[0];
+  console.log('asdfasw034', entity);
   const group = (
     await db('groups')
       .insert({
+        entity_id: entity.id,
         user_id,
         group_name,
+        group_description,
         image_url,
         slug: await slugify(group_name, {
           lower: true,
@@ -39,9 +48,15 @@ exports.getGroups = async (searchTerm) => {
 
 exports.retrieveGroup = async (slug) => {
   try {
+    // need to get the group data itself
+    // need to get all group members
+    // need to get all group posts
     const group = (
       await db('groups').where({ slug: slug.toLowerCase() }).returning('*')
     )[0];
+    const groupMembers = await db('groups')
+      .where({ slug: slug.toLowerCase() })
+      .returning('*');
     return group;
   } catch (err) {
     console.log(err);

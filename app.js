@@ -3,21 +3,22 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const passport = require('passport');
+const path = require('path');
 
 const app = express();
 
 app.use(
-    cors({
-        origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
-    })
+  cors({
+    origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000'
+  })
 );
 app.use(helmet());
-
 if (process.env.NODE_ENV !== 'production') {
-    const morgan = require('morgan');
-    app.use(morgan('tiny'));
+  const morgan = require('morgan');
+  app.use(morgan('tiny'));
 }
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
