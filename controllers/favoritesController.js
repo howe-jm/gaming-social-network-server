@@ -54,7 +54,7 @@ exports.getTotalFavs = async (req, res) => {
   // gameId = '1'
   // `http://localhost:3000/favorites/count?gameId=${gameId}`
   try {
-    const { gameId } = req.query;
+    const { gameId, gameName } = req.query;
     const favoriteCount = await retrieveFavoritesCount(gameId);
     if (!favoriteCount) {
       res.status(204).json({
