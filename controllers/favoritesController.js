@@ -52,27 +52,29 @@ exports.getFavorite = async (req, res) => {
   }
 };
 
-exports.getFavoriteCount = async (req, res) => {
+exports.getTotalFavs = async (req, res) => {
+  console.log('random string');
   try { 
-    const game_id = req.params.game_id;
+    const {game_id} = req.body;
+    console.log(game_id);
     const favoriteCount = await retrieveFavoritesCount(game_id);
-
     if (!favoriteCount) {
         res.status(200).json({
           success: false,
+          message: "line 63",
           errors: [{ msg: 'Could not retrieve count for favorites.' }]
         });
         return favoriteCount;
     }
 
-    res.status(200).json({ success: true, favoriteCount});
+    res.status(200).json({ success: true, favoriteCount: favoriteCount});
   } catch (err) {
     res.status(500).json({
       success: false,
       errors: [{ msg: 'Server error: could not get favorites count.'}]
     })
   }
-}
+};
 
 exports.addFavorite = async (req, res) => {
   try {

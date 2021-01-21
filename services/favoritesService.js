@@ -14,7 +14,7 @@ exports.retrieveFavoritesCount = async (game_id) => {
   try {
     const count = await db.from('fav_games').where({ game_id: game_id }).returning('*');
     if (!count) {
-      total = 0;
+      return total;
     } else {
     total = count.length;
     }

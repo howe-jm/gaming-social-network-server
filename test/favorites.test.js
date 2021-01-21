@@ -77,7 +77,7 @@ describe('/favorites/:gameId', () => {
   });
 });
 
-describe('/favorites/count', () => {
+describe.only('/favorites/count', () => {
   it ('should return the number of rows for the game', async () => {
     await dropTables();
     await createTables();
@@ -109,7 +109,7 @@ describe('/favorites/count', () => {
     const { body } = await request(app)
       .get('/favorites/count')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
-      .expect(200)
+      .expect(200);
       
     });
   })

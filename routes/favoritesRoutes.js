@@ -4,18 +4,18 @@ const passport = require('passport');
 const {
     getFavorite,
     getFavorites,
-    getFavoriteCount,
+    getTotalFavs,
     addFavorite,
     deleteFavorite
 } = require('../controllers/favoritesController');
 
 router.get('/', passport.authenticate('jwt', { session: false }), getFavorites);
+router.get('/count', passport.authenticate('jwt', { session: false }), getTotalFavs);
 router.get(
     '/:gameId',
     passport.authenticate('jwt', { session: false }),
     getFavorite
 );
-router.get('/count', passport.authenticate('jwt', { session: false }), getFavoriteCount);
 router.post('/', passport.authenticate('jwt', { session: false }), addFavorite);
 router.delete(
     '/:gameId',
