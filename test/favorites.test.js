@@ -77,8 +77,8 @@ describe('/favorites/:gameId', () => {
   });
 });
 
-describe.only('/favorites/count', () => {
-  it ('should return the number of rows for the game', async () => {
+describe('/favorites/count', () => {
+  it('should return the number of rows for the game', async () => {
     await dropTables();
     await createTables();
     const { token } = await createUser({
@@ -108,9 +108,15 @@ describe.only('/favorites/count', () => {
 
     const { body } = await request(app)
       .get('/favorites/count')
+      .query({ gameId: 1 })
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
-      .expect(200);
-      
-    });
-  })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.success).to.eql(true);
+        expect(res.body.favoriteCount).to.eql(2);
+      });
+  });
+});
 
+// gameId = '1'
+// `http://localhost:3000/favorites/count?gameId=${gameId}`

@@ -3,7 +3,7 @@ const {
   removeFavorite,
   retrieveFavorites,
   retrieveFavoritesCount,
-  insertFavorite
+  insertFavorite,
 } = require('../services/favoritesService');
 
 exports.getFavorites = async (req, res) => {
@@ -11,14 +11,12 @@ exports.getFavorites = async (req, res) => {
     const user_id = req.user.id;
     const favGames = await retrieveFavorites(user_id);
 
-    const favoritedGames = await favGames.map((game) =>
-      JSON.parse(game.game_json)
-    );
+    const favoritedGames = await favGames.map((game) => JSON.parse(game.game_json));
 
     if (!favoritedGames) {
       return res.status(400).json({
         success: false,
-        errors: [{ msg: 'Could not get favorite games' }]
+        errors: [{ msg: 'Could not get favorite games' }],
       });
     }
 
@@ -26,7 +24,7 @@ exports.getFavorites = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error: Could not get favorite games' }]
+      errors: [{ msg: 'Server error: Could not get favorite games' }],
     });
   }
 };
@@ -39,7 +37,7 @@ exports.getFavorite = async (req, res) => {
 
     if (!favorite) {
       return res.status(200).json({
-        success: false
+        success: false,
       });
     }
 
@@ -47,32 +45,31 @@ exports.getFavorite = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error: Could not get favorite' }]
+      errors: [{ msg: 'Server error: Could not get favorite' }],
     });
   }
 };
 
 exports.getTotalFavs = async (req, res) => {
-  console.log('random string');
-  try { 
-    const {game_id} = req.body;
-    console.log(game_id);
-    const favoriteCount = await retrieveFavoritesCount(game_id);
+  // gameId = '1'
+  // `http://localhost:3000/favorites/count?gameId=${gameId}`
+  try {
+    const { gameId } = req.query;
+    const favoriteCount = await retrieveFavoritesCount(gameId);
     if (!favoriteCount) {
-        res.status(200).json({
-          success: false,
-          message: "line 63",
-          errors: [{ msg: 'Could not retrieve count for favorites.' }]
-        });
-        return favoriteCount;
+      res.status(204).json({
+        success: false,
+        errors: [{ msg: 'Game does not have any favorites.' }],
+      });
+      return favoriteCount;
     }
 
-    res.status(200).json({ success: true, favoriteCount: favoriteCount});
+    res.status(200).json({ success: true, favoriteCount: favoriteCount });
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error: could not get favorites count.'}]
-    })
+      errors: [{ msg: 'Server error: could not get favorites count.' }],
+    });
   }
 };
 
@@ -86,7 +83,7 @@ exports.addFavorite = async (req, res) => {
     if (!insertedGame) {
       return res.status(400).json({
         success: false,
-        errors: [{ msg: 'Could not add favorite' }]
+        errors: [{ msg: 'Could not add favorite' }],
       });
     }
 
@@ -95,12 +92,12 @@ exports.addFavorite = async (req, res) => {
     res.status(200).json({
       success: true,
       game_id: insertedGame.game_id,
-      game: insertedGame
+      game: insertedGame,
     });
   } catch (err) {
     res.status(500).json({
       success: false,
-      errors: [{ msg: 'Server error: Could not add game' }]
+      errors: [{ msg: 'Server error: Could not add game' }],
     });
   }
 };
@@ -113,10 +110,9 @@ exports.deleteFavorite = async (req, res) => {
     const removedGame = await removeFavorite(user_id, gameId);
     console.log(removedGame);
     res.status(200).json({
-      success: true
+      success: true,
     });
   } catch (err) {
     console.log(err);
   }
 };
-
