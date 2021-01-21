@@ -76,3 +76,41 @@ describe('/favorites/:gameId', () => {
       .expect(200);
   });
 });
+
+describe('/favorites/count', () => {
+  it ('should return the number of rows for the game', async () => {
+    await dropTables();
+    await createTables();
+    const { token } = await createUser({
+      username: 'darriss',
+      email: 'darriss@example.com',
+      password: 'pass123word',
+    });
+
+    const newFavorite1 = {
+      game_id: '1',
+      game: { testDescription: 'testing the name and game' },
+    };
+    const newFavorite2 = {
+      game_id: '1',
+      game: { testDescription: 'testing the name and game' },
+    };
+
+    await request(app)
+      .post('/favorites')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .send(newFavorite1);
+
+    await request(app)
+      .post('/favorites')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .send(newFavorite2);
+
+    const { body } = await request(app)
+      .get('/favorites/count')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .expect(200)
+      
+    });
+  })
+
