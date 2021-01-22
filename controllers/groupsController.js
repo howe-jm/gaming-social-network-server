@@ -1,7 +1,8 @@
 const {
   insertGroup,
   getGroups,
-  retrieveGroup
+  retrieveGroup,
+  getGroupMembers
 } = require('../services/groupsService');
 
 exports.createGroup = async (req, res) => {
@@ -53,42 +54,10 @@ exports.getGroups = async (req, res) => {
   }
 };
 
-exports.filterGroups = async (req, res) => {
-  try {
-    const { searchTerm } = req.query;
-    const groups = await getGroups();
-
-    if (!groups) {
-      return res.status(400).json({
-        success: false,
-        errors: [{ msg: 'Could not get groups' }]
-      });
-    }
-
-    const filteredGroups = groups.filter((group) =>
-      group.group_name.includes(searchTerm)
-    );
-
-    if (!filteredGroups) {
-      return res.status(400).json({
-        success: false,
-        errors: [{ message: 'Group not found?' }]
-      });
-    }
-
-    return res.status(200).json({ success: true, groups });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      success: false,
-      errors: [{ msg: 'Server error ' }]
-    });
-  }
-};
-
 exports.getGroup = async (req, res) => {
   try {
     const { slug } = req.params;
+    const user = req.user;
     const group = await retrieveGroup(slug);
 
     if (!group) {
@@ -97,6 +66,9 @@ exports.getGroup = async (req, res) => {
         errors: [{ message: 'Group not found' }]
       });
     }
+
+    const members = await getGroupMembers(group.id, user);
+    // console.log(members);
 
     return res.status(200).json({ success: true, group });
   } catch (err) {
@@ -107,3 +79,6 @@ exports.getGroup = async (req, res) => {
     });
   }
 };
+
+exports.joinGroup = async (req, res) => {};
+exports.leaveGroup = async (req, res) => {};

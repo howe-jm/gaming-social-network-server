@@ -4,21 +4,36 @@ const passport = require('passport');
 const {
   createGroup,
   getGroups,
-  getGroup
+  getGroup,
+  joinGroup,
+  leaveGroup
 } = require('../controllers/groupsController');
 const uploadImage = require('../services/imagesService');
 
 router.get('/', passport.authenticate('jwt', { session: false }), getGroups);
-router.get(
-  '/:slug',
-  passport.authenticate('jwt', { session: false }),
-  getGroup
-);
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   uploadImage.single('image'),
   createGroup
+);
+
+router.post(
+  '/:slug/join',
+  passport.authenticate('jwt', { session: false }),
+  joinGroup
+);
+
+router.delete(
+  '/:slug/leave',
+  passport.authenticate('jwt', { session: false }),
+  leaveGroup
+);
+
+router.get(
+  '/:slug',
+  passport.authenticate('jwt', { session: false }),
+  getGroup
 );
 
 module.exports = router;
