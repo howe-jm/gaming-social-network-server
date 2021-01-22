@@ -2,6 +2,7 @@ const {
     retrieveFavorite,
     removeFavorite,
     retrieveFavorites,
+    retrieveFavoritesCount,
     insertFavorite,
 } = require('../services/favoritesService');
 
@@ -48,6 +49,29 @@ exports.getFavorite = async (req, res) => {
         res.status(500).json({
             success: false,
             errors: [{ msg: 'Server error: Could not get favorite' }],
+        });
+    }
+};
+
+exports.getTotalFavs = async (req, res) => {
+    // gameId = '1'
+    // `http://localhost:3000/favorites/count?gameId=${gameId}`
+    try {
+        const { gameId, gameName } = req.query;
+        const favoriteCount = await retrieveFavoritesCount(gameId);
+        if (!favoriteCount) {
+            res.status(204).json({
+                success: false,
+                errors: [{ msg: 'Game does not have any favorites.' }],
+            });
+            return favoriteCount;
+        }
+
+        res.status(200).json({ success: true, favoriteCount: favoriteCount });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            errors: [{ msg: 'Server error: could not get favorites count.' }],
         });
     }
 };

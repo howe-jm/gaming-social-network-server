@@ -2,6 +2,8 @@ const {
     updateUserBio,
     getUserImages,
     postUserImage,
+    updateUserBanner,
+    updateUserImage,
 } = require('../services/profilesService');
 const { getUserIdByName } = require('../services/usersService');
 
@@ -24,6 +26,60 @@ exports.updateUserProfileBio = async (req, res) => {
         res.status(500).json({
             success: false,
             errors: [{ msg: 'Could not update profile' }, { msg: err.message }],
+        });
+    }
+};
+
+exports.updateUserProfileBanner = async (req, res) => {
+    try {
+        const { user_id, banner_url } = req.body;
+        console.log(user_id, banner_url);
+        const profile = await updateUserBanner(banner_url, user_id);
+        if (!profile) {
+            return res.status(400).json({
+                success: false,
+                errors: [{ msg: 'Could not update profile banner' }],
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            profile,
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            errors: [
+                { msg: 'Could not update profile banner' },
+                { msg: err.message },
+            ],
+        });
+    }
+};
+
+exports.updateUserProfileImage = async (req, res) => {
+    try {
+        const { user_id, profile_url } = req.body;
+        console.log(user_id, profile_url);
+        const profile = await updateUserImage(profile_url, user_id);
+        if (!profile) {
+            return res.status(400).json({
+                success: false,
+                errors: [{ msg: 'Could not update profile image' }],
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            profile,
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            errors: [
+                { msg: 'Could not update profile image' },
+                { msg: err.message },
+            ],
         });
     }
 };

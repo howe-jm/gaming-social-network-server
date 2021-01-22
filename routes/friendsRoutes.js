@@ -3,11 +3,11 @@ const router = express.Router();
 const passport = require('passport');
 
 const {
-  getAllCurrentFriends,
-  getAllPendingFriends,
-  deleteFriend,
-  acceptAFriend,
-  sendFriendRequest
+    getAllCurrentFriends,
+    getAllPendingFriends,
+    deleteFriend,
+    acceptAFriend,
+    sendFriendRequest,
 } = require('../controllers/friendsController');
 const { requestFriend } = require('../services/friendsService');
 
@@ -17,47 +17,47 @@ const { requestFriend } = require('../services/friendsService');
 // @PATCH /friends/:friendId - accepts a friend request updating `pending` to false meaning they are now friends
 
 router.get(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  getAllCurrentFriends
+    '/',
+    passport.authenticate('jwt', { session: false }),
+    getAllCurrentFriends
 );
 
 router.get(
-  '/',
-  passport.authenticate('jwt', {
-    session: false
-  }),
-  getAllCurrentFriends
+    '/',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    getAllCurrentFriends
 );
 router.get(
-  '/requests',
-  passport.authenticate('jwt', {
-    session: false
-  }),
-  getAllPendingFriends
+    '/requests',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    getAllPendingFriends
 );
 router.delete(
-  '/:friendId',
-  passport.authenticate('jwt', {
-    session: false
-  }),
-  deleteFriend
+    '/deleteFriend',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    deleteFriend
 );
 
 router.patch(
-  '/:friendId',
-  passport.authenticate('jwt', {
-    session: false
-  }),
-  acceptAFriend
+    '/acceptFriend',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    acceptAFriend
 );
 
 router.post(
-  '/request',
-  passport.authenticate('jwt', {
-    session: false
-  }),
-  sendFriendRequest
+    '/request',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    sendFriendRequest
 );
 
 module.exports = router;
