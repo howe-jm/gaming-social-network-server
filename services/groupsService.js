@@ -54,11 +54,22 @@ exports.retrieveGroup = async (slug) => {
     const group = (
       await db('groups').where({ slug: slug.toLowerCase() }).returning('*')
     )[0];
-    const groupMembers = await db('groups')
-      .where({ slug: slug.toLowerCase() })
-      .returning('*');
     return group;
   } catch (err) {
     console.log(err);
   }
 };
+
+exports.insertMemberInGroup = () => {};
+
+exports.removeMemberFromGroup = () => {};
+
+exports.getGroupMembers = async (groupId) => {
+  const groupMembers = await db('group_member')
+    .where({ group_id: groupId })
+    .returning('*');
+  console.log(groupMembers);
+  return groupMembers;
+};
+
+exports.isUserInGroup = async () => {};
