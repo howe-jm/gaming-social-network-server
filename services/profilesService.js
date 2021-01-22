@@ -18,6 +18,26 @@ exports.updateUserBio = async (user_bio, user_id) => {
     return profile;
 };
 
+exports.updateUserBanner = async (banner_url, user_id) => {
+    const profile = (
+        await db('profiles')
+            .update('banner_url', banner_url)
+            .where({ user_id: user_id })
+            .returning('*')
+    )[0];
+    return profile;
+};
+
+exports.updateUserImage = async (profile_url, user_id) => {
+    const profile = (
+        await db('profiles')
+            .update('profile_url', profile_url)
+            .where({ user_id: user_id })
+            .returning('*')
+    )[0];
+    return profile;
+};
+
 exports.getUserImages = async (user_id) => {
     const images = await db('user_images')
         .select('*')
