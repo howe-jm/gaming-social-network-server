@@ -8,7 +8,6 @@ exports.insertGroup = async (
   image_url
 ) => {
   const entity = (await db('entity').insert({}).returning('*'))[0];
-  console.log('asdfasw034', entity);
   const group = (
     await db('groups')
       .insert({
@@ -46,30 +45,71 @@ exports.getGroups = async (searchTerm) => {
   }
 };
 
-exports.retrieveGroup = async (slug) => {
+exports.retrieveGroup = async (slug, user) => {
   try {
-    // need to get the group data itself
-    // need to get all group members
     // need to get all group posts
     const group = (
       await db('groups').where({ slug: slug.toLowerCase() }).returning('*')
     )[0];
+
     return group;
   } catch (err) {
     console.log(err);
   }
 };
 
-exports.insertMemberInGroup = () => {};
+exports.isUserInGroup = async (entity_id, group_id, user) => {
+  const member = (
+    await db('group_member').where({ entity_id, group_id, user_id: user.id })
+  )[0];
 
-exports.removeMemberFromGroup = () => {};
+  if (!member) {
+    return false;
+  }
 
-exports.getGroupMembers = async (groupId) => {
-  const groupMembers = await db('group_member')
-    .where({ group_id: groupId })
-    .returning('*');
-  console.log(groupMembers);
-  return groupMembers;
+  return true;
 };
 
-exports.isUserInGroup = async () => {};
+exports.insertMemberInGroup = async (entity_id, group_id, user) => {
+  try {
+    const member = await db('group_member')
+      .insert({
+        entity_id,
+        group_id,
+        user_id: user.id
+      })
+      .returning('*');
+    return member;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.removeMemberFromGroup = async (entity_id, group_id, user) => {
+  try {
+    const member = await db('group_member')
+      .where({
+        entity_id,
+        group_id,
+        user_id: user.id
+      })
+      .delete()
+      .returning('*');
+    return member;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.getGroupMembers = async (group_id) => {
+  const groupMembers = await db('group_member')
+    .where({ group_id })
+    .join('users', {
+      'users.id': 'group_member.user_id'
+    })
+    .join('profiles', {
+      'profiles.user_id': 'group_member.user_id'
+    })
+    .select(['username', 'profile_url', 'users.id']);
+  return groupMembers;
+};
