@@ -19,13 +19,13 @@ router.post(
 );
 
 router.post(
-  '/:slug/join',
+  '/join',
   passport.authenticate('jwt', { session: false }),
   joinGroup
 );
 
 router.delete(
-  '/:slug/leave',
+  '/leave',
   passport.authenticate('jwt', { session: false }),
   leaveGroup
 );
