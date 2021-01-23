@@ -41,20 +41,23 @@ exports.getAllPendingFriends = async (req, res) => {
 
 // next function will be the delete controller
 
-exports.deleteFriend = async (req, res) => {
-  const { user_a, user_b } = req.body;
-  console.log(user_a, user_b);
-  removeFriend(user_b, user_a);
 
-  res.status(200).json({ success: true, message: 'friend has been deleted' });
+exports.deleteFriend = (req, res) => {
+    const { user_a, user_b } = req.body;
+    removeFriend(user_b, user_a);
+    res.status(200).end();
 };
 
 // next function will be the friend accept/patch
 
 exports.acceptAFriend = async (req, res) => {
-  try {
-    const { user_b, user_a } = req.body;
-    const acceptSelectedFriend = await acceptFriend(user_b, user_a);
+    try {
+        const { user_b, user_a, friends_id } = req.body;
+        const acceptSelectedFriend = await acceptFriend(
+            user_b,
+            user_a,
+            friends_id
+        );
 
     res.status(200).json({ success: true, acceptSelectedFriend });
   } catch (err) {
