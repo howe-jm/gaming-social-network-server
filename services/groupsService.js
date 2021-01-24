@@ -47,7 +47,6 @@ exports.getGroups = async (searchTerm) => {
 
 exports.retrieveGroup = async (slug, user) => {
   try {
-    // need to get all group posts
     const group = (
       await db('groups').where({ slug: slug.toLowerCase() }).returning('*')
     )[0];
@@ -56,6 +55,10 @@ exports.retrieveGroup = async (slug, user) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+exports.getGroupPosts = async (req, res) => {
+  // need to get all group posts
 };
 
 exports.isUserInGroup = async (entity_id, group_id, user) => {
