@@ -3,12 +3,12 @@ const router = express.Router();
 const passport = require('passport');
 
 const {
-    getAllCurrentFriends,
-    getAllPendingRequests,
-    getAllSentRequests,
-    deleteFriend,
-    acceptAFriend,
-    sendFriendRequest,
+  getAllCurrentFriends,
+  getAllPendingRequests,
+  getAllSentRequests,
+  deleteFriend,
+  acceptAFriend,
+  sendFriendRequest,
 } = require('../controllers/friendsController');
 const { requestFriend } = require('../services/friendsService');
 
@@ -17,59 +17,47 @@ const { requestFriend } = require('../services/friendsService');
 // @DELETE /friends/:friendId - deletes a friend request
 // @PATCH /friends/:friendId - accepts a friend request updating `pending` to false meaning they are now friends
 
-router.get(
-    '/',
-    passport.authenticate('jwt', { session: false }),
-    getAllCurrentFriends
-);
-
-router.get(
-    '/',
-    passport.authenticate('jwt', {
-        session: false,
-    }),
-    getAllCurrentFriends
-);
+router.get('/', passport.authenticate('jwt', { session: false }), getAllCurrentFriends);
 
 //get received requests
 router.get(
-    '/requests',
-    passport.authenticate('jwt', {
-        session: false,
-    }),
-    getAllPendingRequests
+  '/requests',
+  passport.authenticate('jwt', {
+    session: false,
+  }),
+  getAllPendingRequests
 );
 
 //get sent requests
 router.get(
-    '/sent',
-    passport.authenticate('jwt', {
-        session: false,
-    }),
-    getAllSentRequests
+  '/sent',
+  passport.authenticate('jwt', {
+    session: false,
+  }),
+  getAllSentRequests
 );
 router.delete(
-    '/deleteFriend',
-    passport.authenticate('jwt', {
-        session: false,
-    }),
-    deleteFriend
+  '/deleteFriend',
+  passport.authenticate('jwt', {
+    session: false,
+  }),
+  deleteFriend
 );
 
 router.delete(
-    '/acceptFriend',
-    passport.authenticate('jwt', {
-        session: false,
-    }),
-    acceptAFriend
+  '/acceptFriend',
+  passport.authenticate('jwt', {
+    session: false,
+  }),
+  acceptAFriend
 );
 
 router.post(
-    '/request',
-    passport.authenticate('jwt', {
-        session: false,
-    }),
-    sendFriendRequest
+  '/request',
+  passport.authenticate('jwt', {
+    session: false,
+  }),
+  sendFriendRequest
 );
 
 module.exports = router;

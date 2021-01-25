@@ -3,6 +3,11 @@ const { expect } = require('chai');
 const request = require('supertest');
 const { createTables, dropTables, createUser } = require('./testHelpers');
 
+/* 
+Note: Not final test code. Will refactor post-deployment. 
+These tests check the basic functionalty of the app in an inefficient manner, but they work. 
+*/
+
 describe('/comments', () => {
   it('/comments should create and return a comment', async () => {
     await dropTables();

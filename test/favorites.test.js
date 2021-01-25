@@ -3,6 +3,11 @@ const { expect } = require('chai');
 const request = require('supertest');
 const { createTables, dropTables, createUser } = require('./testHelpers');
 
+/* 
+Note: Not final test code. Will refactor post-deployment. 
+These tests check the basic functionalty of the app in an inefficient manner, but they work. 
+*/
+
 describe('/favorites', () => {
   it('/should get favorite games', async () => {
     await dropTables();
@@ -117,6 +122,3 @@ describe('/favorites/count', () => {
       });
   });
 });
-
-// gameId = '1'
-// `http://localhost:3000/favorites/count?gameId=${gameId}`
