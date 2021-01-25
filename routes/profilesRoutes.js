@@ -9,6 +9,7 @@ const {
     updateUserProfileBio,
     updateUserProfileBanner,
     updateUserProfileImage,
+    updatePreferredHardware,
     getAllUserImages,
     postImage,
 } = require('../controllers/profilesController');
@@ -21,6 +22,9 @@ router.patch(
     bodyParser.json(),
     updateUserProfileImage
 );
+
+//route to patch user hardware
+router.patch('/:username/hardware', bodyParser.json(), updatePreferredHardware);
 //routes to get and post images
 router.get('/:username/images', bodyParser.json(), getAllUserImages);
 router.post('/:username/images', bodyParser.json(), postImage);

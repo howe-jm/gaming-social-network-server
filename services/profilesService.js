@@ -53,3 +53,13 @@ exports.postUserImage = async (user_id, imageURL) => {
     });
     return this.getUserImages(user_id);
 };
+
+exports.updateHardware = async (user_id, hardware) => {
+    const profile = (
+        await db('profiles')
+            .update('preferred_hardware', hardware)
+            .where({ user_id: user_id })
+            .returning('*')
+    )[0];
+    return profile;
+};

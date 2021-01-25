@@ -4,8 +4,36 @@ const {
     postUserImage,
     updateUserBanner,
     updateUserImage,
+    updateHardware,
 } = require('../services/profilesService');
 const { getUserIdByName } = require('../services/usersService');
+
+exports.updatePreferredHardware = async (req, res) => {
+    try {
+        const { user_id, hardware } = req.body;
+        const profile = await updateHardware(user_id, hardware);
+
+        if (!profile) {
+            return res.status(400).json({
+                success: false,
+                errors: [{ msg: 'Could not update profile' }],
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            profile,
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            errors: [
+                { msg: 'Could not update profile hardware' },
+                { msg: err.message },
+            ],
+        });
+    }
+};
 
 exports.updateUserProfileBio = async (req, res) => {
     try {
@@ -33,7 +61,6 @@ exports.updateUserProfileBio = async (req, res) => {
 exports.updateUserProfileBanner = async (req, res) => {
     try {
         const { user_id, banner_url } = req.body;
-        console.log(user_id, banner_url);
         const profile = await updateUserBanner(banner_url, user_id);
         if (!profile) {
             return res.status(400).json({
@@ -60,7 +87,6 @@ exports.updateUserProfileBanner = async (req, res) => {
 exports.updateUserProfileImage = async (req, res) => {
     try {
         const { user_id, profile_url } = req.body;
-        console.log(user_id, profile_url);
         const profile = await updateUserImage(profile_url, user_id);
         if (!profile) {
             return res.status(400).json({

@@ -26,7 +26,6 @@ exports.getAllCurrentFriends = async (req, res) => {
 exports.getAllPendingRequests = async (req, res) => {
     try {
         const user_id = req.user.id;
-        console.log(user_id);
         const allPendingFriends = await getPendingRequests(user_id);
 
         res.status(200).json({ success: true, allPendingFriends });
@@ -51,11 +50,11 @@ exports.getAllSentRequests = async (req, res) => {
         });
     }
 };
+
 // next function will be the delete controller
 
 exports.deleteFriend = (req, res) => {
     const { user_a, friend_id } = req.body;
-    console.log('user_a', user_a, 'friend_id', friend_id);
     removeFriend(user_a, friend_id);
     res.status(200).json({ success: true, message: 'Friend has been deleted' });
 };
