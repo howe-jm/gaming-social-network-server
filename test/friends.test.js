@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const request = require('supertest');
 const { createTables, dropTables, createUser } = require('./testHelpers');
 
-describe.only('/friends route', () => {
+describe('/friends route', () => {
   it('GET should retrieve all current friends', async () => {
     await dropTables();
     await createTables();
