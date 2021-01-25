@@ -55,6 +55,15 @@ exports.getUserPosts = async (user_id) => {
     return posts;
 };
 
+exports.getAllPosts = async (ids) => {
+    const allPosts = await db('entity_post')
+        .where((builder) => builder.whereIn('user_id', ids))
+        .join('users', { 'users.id': 'entity_post.user_id' })
+        .returning('*');
+    console.log(allPosts);
+    return allPosts;
+};
+
 exports.updateUserPost = async (content, user_id) => {};
 
 exports.removeUserPost = async (content, user_id) => {};

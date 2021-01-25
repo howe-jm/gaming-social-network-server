@@ -4,7 +4,8 @@ const passport = require('passport');
 
 const {
     getAllCurrentFriends,
-    getAllPendingFriends,
+    getAllPendingRequests,
+    getAllSentRequests,
     deleteFriend,
     acceptAFriend,
     sendFriendRequest,
@@ -29,12 +30,23 @@ router.get(
     }),
     getAllCurrentFriends
 );
+
+//get received requests
 router.get(
     '/requests',
     passport.authenticate('jwt', {
         session: false,
     }),
-    getAllPendingFriends
+    getAllPendingRequests
+);
+
+//get sent requests
+router.get(
+    '/sent',
+    passport.authenticate('jwt', {
+        session: false,
+    }),
+    getAllSentRequests
 );
 router.delete(
     '/deleteFriend',
@@ -44,7 +56,7 @@ router.delete(
     deleteFriend
 );
 
-router.patch(
+router.delete(
     '/acceptFriend',
     passport.authenticate('jwt', {
         session: false,
