@@ -9,7 +9,6 @@ const {
 exports.getFavorites = async (req, res) => {
     try {
         const user_id = req.user.id;
-        console.log(user_id);
         const favGames = await retrieveFavorites(user_id);
 
         const favoritedGames = await favGames.map((game) =>

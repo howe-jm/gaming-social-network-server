@@ -83,7 +83,6 @@ exports.getPostComments = async (req, res) => {
 exports.getAllPosts = async (req, res) => {
     try {
         const user_id = req.user.id;
-        console.log(user_id);
         const listOfFriends = await getListOfFriends(user_id);
         const arrFriends = listOfFriends.map((each) => each.friend_id);
         arrFriends.push(user_id);
