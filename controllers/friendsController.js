@@ -50,6 +50,7 @@ exports.getAllSentRequests = async (req, res) => {
     });
   }
 };
+
 // next function will be the delete controller
 
 exports.deleteFriend = (req, res) => {
