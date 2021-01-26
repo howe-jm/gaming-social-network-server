@@ -58,7 +58,7 @@ describe('/favorites', () => {
   });
 });
 
-describe('/favorites', () => {
+describe('/favorites/userFavorites', () => {
   it('/should get favorite games', async () => {
     await dropTables();
     await createTables();
@@ -77,8 +77,9 @@ describe('/favorites', () => {
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
       .send(newFavorite);
     const { body } = await request(app)
-      .get('/favorites')
+      .get('/favorites/userFavorites')
       .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .query({ userId: 1 })
       .expect(200)
       .expect((res) => {
         expect(res.body.favorites[0].testDescription).to.eql(newFavorite.game.testDescription);
