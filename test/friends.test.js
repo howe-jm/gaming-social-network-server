@@ -241,6 +241,50 @@ describe('/friends/acceptFriend route', () => {
   });
 });
 
+describe('/friends/declineFriend route', () => {
+  it('DELETE should delete a pending friend request', async () => {
+    await dropTables();
+    await createTables();
+
+    const { token } = await createUser({
+      username: 'dom',
+      email: 'dom@example.com',
+      password: '123456',
+    });
+
+    const friendUser = {
+      username: 'thatotherdom',
+      email: 'domdom@example.com',
+      password: '123456',
+    };
+
+    const { token: tokenTwo } = await createUser(friendUser);
+
+    const newRequest = {
+      user_b: '1',
+    };
+
+    await request(app)
+      .post('/friends/request')
+      .set({ Authorization: `Bearer ${tokenTwo}`, Accept: 'application/json' })
+      .send(newRequest);
+
+    const declineRequest = {
+      id: 1,
+    };
+
+    const { body } = await request(app)
+      .delete('/friends/declineFriend')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application' })
+      .send(declineRequest)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.success).to.eql(true);
+        expect(res.body.declinedFriend).to.eql(declineRequest.id);
+      });
+  });
+});
+
 describe('/friends/request route', () => {
   it('POST should send a new friend request', async () => {
     await dropTables();
