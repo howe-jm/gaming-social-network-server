@@ -44,6 +44,13 @@ exports.getAllPosts = async (ids) => {
   const allPosts = await db('entity_post')
     .where((builder) => builder.whereIn('user_id', ids))
     .join('users', { 'users.id': 'entity_post.user_id' })
-    .returning('*');
+    .select([
+      'users.id',
+      'users.username',
+      'entity_post.created_at',
+      'entity_post.post_text',
+      'entity_post.entity_id'
+    ])
+    .orderBy('entity_post.created_at', 'desc');
   return allPosts;
 };
