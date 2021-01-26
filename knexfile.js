@@ -12,6 +12,7 @@ module.exports = {
   },
   production: {
     client: 'pg',
+    debug: true,
     connection: DATABASE_URL,
     ssl: true
   },
