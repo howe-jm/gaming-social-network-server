@@ -6,11 +6,15 @@ const {
   getGroups,
   getGroup,
   joinGroup,
-  leaveGroup
+  leaveGroup,
+  getMembers,
+  createGroupPost,
+  getGroupPosts
 } = require('../controllers/groupsController');
 const uploadImage = require('../services/imagesService');
 
 router.get('/', passport.authenticate('jwt', { session: false }), getGroups);
+
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -34,6 +38,24 @@ router.get(
   '/:slug',
   passport.authenticate('jwt', { session: false }),
   getGroup
+);
+
+router.get(
+  '/:id/members',
+  passport.authenticate('jwt', { session: false }),
+  getMembers
+);
+
+router.post(
+  '/:id/posts',
+  passport.authenticate('jwt', { session: false }),
+  createGroupPost
+);
+
+router.get(
+  '/:id/posts',
+  passport.authenticate('jwt', { session: false }),
+  getGroupPosts
 );
 
 module.exports = router;

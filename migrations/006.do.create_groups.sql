@@ -14,6 +14,3 @@ CREATE TABLE group_member (
     user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
     group_id BIGINT REFERENCES groups(id) ON DELETE CASCADE
 );
-
-
-
