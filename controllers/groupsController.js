@@ -8,7 +8,8 @@ const {
   isUserInGroup,
   insertGroupPost,
   retrieveGroupPosts,
-  isUserGroupAdmin
+  isUserGroupAdmin,
+  checkIfGroupExists
 } = require('../services/groupsService');
 
 exports.createGroup = async (req, res) => {
@@ -16,6 +17,64 @@ exports.createGroup = async (req, res) => {
     const { group_name, group_description } = req.body;
     const user = req.user;
     const image_url = req.file.location;
+
+    if (group_name.trim().length < 3) {
+      return res.status(400).json({
+        success: false,
+        errors: [
+          {
+            msg: 'Group name must be at least 3 characters long.'
+          }
+        ]
+      });
+    }
+
+    if (group_name.trim().length > 50) {
+      return res.status(400).json({
+        success: false,
+        errors: [
+          {
+            msg: 'Group name cannot be longer than 50 characters.'
+          }
+        ]
+      });
+    }
+
+    if (group_description.trim().length <= 3) {
+      return res.status(400).json({
+        success: false,
+        errors: [
+          {
+            msg: 'Group description must be at least 3 characters long.'
+          }
+        ]
+      });
+    }
+
+    if (group_description.trim().length > 140) {
+      return res.status(400).json({
+        success: false,
+        errors: [
+          {
+            msg: 'Group description cannot be longer than 140 characters.'
+          }
+        ]
+      });
+    }
+
+    const groupExists = await checkIfGroupExists(group_name);
+
+    if (groupExists) {
+      return res.status(400).json({
+        success: false,
+        errors: [
+          {
+            msg:
+              'Group name already exists. Please choose a different group name.'
+          }
+        ]
+      });
+    }
 
     const group = await insertGroup(
       user.id,
