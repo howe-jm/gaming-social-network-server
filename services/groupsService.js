@@ -26,6 +26,25 @@ exports.insertGroup = async (
   return group;
 };
 
+exports.checkIfGroupExists = async (group_name) => {
+  const group = (
+    await db('groups')
+      .where({
+        slug: await slugify(group_name, {
+          lower: true,
+          strict: true
+        })
+      })
+      .returning('*')
+  )[0];
+
+  if (!group) {
+    return false;
+  }
+
+  return true;
+};
+
 exports.retrieveGroups = async (searchTerm) => {
   try {
     let groups = await db('groups').returning('*');
