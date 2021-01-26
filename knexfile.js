@@ -11,7 +11,7 @@ module.exports = {
   },
   production: {
     client: 'pg',
-    connection: DATABASE_URL
+    connection: `${DATABASE_URL}?ssl=true`
   },
   test: {
     client: 'pg',
