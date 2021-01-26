@@ -3,6 +3,7 @@ const {
   getCurrentFriends,
   removeFriend,
   acceptFriend,
+  declineFriend,
   requestFriend,
   getSentRequests,
 } = require('../services/friendsService');
@@ -71,6 +72,20 @@ exports.acceptAFriend = async (req, res) => {
     res.status(500).json({
       success: false,
       errors: [{ msg: 'Server error: Could not get added friend' }],
+    });
+  }
+};
+
+exports.declineAFriend = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const declinedFriend = await declineFriend(id);
+
+    res.status(200).json({ success: true, declinedFriend });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      errors: [{ msg: 'Server error: Could not delete request' }],
     });
   }
 };

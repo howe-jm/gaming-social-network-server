@@ -8,6 +8,7 @@ const {
   getAllSentRequests,
   deleteFriend,
   acceptAFriend,
+  declineAFriend,
   sendFriendRequest,
 } = require('../controllers/friendsController');
 const { requestFriend } = require('../services/friendsService');
@@ -50,6 +51,14 @@ router.delete(
     session: false,
   }),
   acceptAFriend
+);
+
+router.delete(
+  '/declineFriend',
+  passport.authenticate('jwt', {
+    session: false,
+  }),
+  declineAFriend
 );
 
 router.post(
