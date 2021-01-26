@@ -26,7 +26,7 @@ exports.insertGroup = async (
   return group;
 };
 
-exports.getGroups = async (searchTerm) => {
+exports.retrieveGroups = async (searchTerm) => {
   try {
     let groups = await db('groups').returning('*');
 
@@ -57,8 +57,46 @@ exports.retrieveGroup = async (slug, user) => {
   }
 };
 
-exports.getGroupPosts = async (req, res) => {
-  // need to get all group posts
+exports.retrieveGroupPosts = async (group_id) => {
+  const posts = await db('group_post')
+    .where({ group_id })
+    .join('users', {
+      'users.id': 'group_post.user_id'
+    })
+    .returning('*');
+  return posts;
+};
+
+exports.insertGroupPost = async (group_id, entity_id, post_text, user_id) => {
+  try {
+    const post = (
+      await db('group_post')
+        .insert({
+          group_id,
+          entity_id,
+          post_text,
+          user_id
+        })
+        .returning('*')
+    )[0];
+    const joinedPost = (
+      await db('group_post')
+        .where({
+          'group_post.user_id': user_id,
+          'group_post.id': post.id
+        })
+        .join('users', {
+          'users.id': 'group_post.user_id'
+        })
+        .join('profiles', {
+          'profiles.user_id': 'group_post.user_id'
+        })
+        .returning('*')
+    )[0];
+    return joinedPost;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.isUserInGroup = async (entity_id, group_id, user) => {
@@ -104,7 +142,7 @@ exports.removeMemberFromGroup = async (entity_id, group_id, user) => {
   }
 };
 
-exports.getGroupMembers = async (group_id) => {
+exports.retrieveGroupMembers = async (group_id) => {
   const groupMembers = await db('group_member')
     .where({ group_id })
     .join('users', {
@@ -115,4 +153,53 @@ exports.getGroupMembers = async (group_id) => {
     })
     .select(['username', 'profile_url', 'users.id']);
   return groupMembers;
+};
+
+exports.insertPostComment = async (entity_id, user_id, comment_text) => {
+  try {
+    const comment = (
+      await db('group_comment')
+        .insert({
+          entity_id,
+          user_id,
+          comment_text
+        })
+        .returning('*')
+    )[0];
+
+    const joinedComment = (
+      await db('group_comment')
+        .where({
+          'group_comment.user_id': user_id,
+          'group_comment.id': comment.id
+        })
+        .join('users', {
+          'users.id': 'group_comment.user_id'
+        })
+        .join('profiles', {
+          'profiles.user_id': 'group_comment.user_id'
+        })
+        .returning('*')
+    )[0];
+    return joinedComment;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.retrievePostComments = async (entity_id) => {
+  try {
+    const comments = await db('group_comment')
+      .where({ entity_id })
+      .join('users', {
+        'users.id': 'group_comment.user_id'
+      })
+      .join('profiles', {
+        'profiles.user_id': 'group_comment.user_id'
+      })
+      .returning('*');
+    return comments;
+  } catch (err) {
+    console.log(err);
+  }
 };

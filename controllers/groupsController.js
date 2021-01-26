@@ -1,20 +1,23 @@
 const {
   insertGroup,
-  getGroups,
+  retrieveGroups,
   retrieveGroup,
-  getGroupMembers,
+  retrieveGroupMembers,
   insertMemberInGroup,
   removeMemberFromGroup,
-  isUserInGroup
+  isUserInGroup,
+  insertGroupPost,
+  retrieveGroupPosts
 } = require('../services/groupsService');
 
 exports.createGroup = async (req, res) => {
   try {
     const { group_name, group_description } = req.body;
+    const user = req.user;
     const image_url = req.file.location;
 
     const group = await insertGroup(
-      req.user.id,
+      user.id,
       group_name,
       group_description,
       image_url
@@ -26,6 +29,8 @@ exports.createGroup = async (req, res) => {
         errors: [{ msg: 'Could not create group' }]
       });
     }
+
+    await insertMemberInGroup(group.entity_id, group.id, user);
 
     res.status(200).json({
       success: true,
@@ -43,11 +48,10 @@ exports.createGroup = async (req, res) => {
 exports.getGroups = async (req, res) => {
   try {
     const searchTerm = req.query.searchTerm;
-    const groups = await getGroups(searchTerm);
+    const groups = await retrieveGroups(searchTerm);
 
     return res.status(200).json({ success: true, groups });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       success: false,
       errors: [{ msg: 'Server error' }]
@@ -69,7 +73,7 @@ exports.getGroup = async (req, res) => {
     }
 
     const isMember = await isUserInGroup(group.entity_id, group.id, user);
-    const members = await getGroupMembers(group.id);
+    const members = await retrieveGroupMembers(group.id);
 
     return res.status(200).json({ success: true, group, members, isMember });
   } catch (err) {
@@ -80,14 +84,33 @@ exports.getGroup = async (req, res) => {
   }
 };
 
+exports.getMembers = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const members = await retrieveGroupMembers(id);
+
+    if (!members) {
+      return res.status(400).json({
+        success: false,
+        errors: [{ message: 'Could not get group members' }]
+      });
+    }
+
+    return res.status(200).json({ success: true, members });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      errors: [{ msg: 'Server error' }]
+    });
+  }
+};
+
 exports.joinGroup = async (req, res) => {
   try {
     const user = req.user;
     const { entity_id, group_id } = req.body;
 
     const member = await insertMemberInGroup(entity_id, group_id, user);
-
-    console.log(member);
 
     if (!member) {
       return res.status(400).json({
@@ -119,5 +142,51 @@ exports.leaveGroup = async (req, res) => {
     return res.status(200).json({ success: true, member });
   } catch (err) {
     console.log(err);
+  }
+};
+
+exports.createGroupPost = async (req, res) => {
+  try {
+    const user = req.user;
+    const group_id = req.params.id;
+    const { entity_id, post_text } = req.body;
+
+    const post = await insertGroupPost(group_id, entity_id, post_text, user.id);
+
+    if (!post) {
+      return res.status(400).json({
+        success: false,
+        errors: [{ message: 'Could not create post' }]
+      });
+    }
+
+    return res.status(200).json({ success: true, post });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      errors: [{ msg: 'Server error' }]
+    });
+  }
+};
+
+exports.getGroupPosts = async (req, res) => {
+  try {
+    const group_id = req.params.id;
+
+    const posts = await retrieveGroupPosts(group_id);
+
+    if (!posts) {
+      return res.status(400).json({
+        success: false,
+        errors: [{ message: 'Could not get posts' }]
+      });
+    }
+
+    return res.status(200).json({ success: true, posts });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      errors: [{ msg: 'Server error' }]
+    });
   }
 };
