@@ -1,6 +1,10 @@
 const db = require('../knex/knex');
 
 exports.getUserByEmail = async (email) => {
-  const user = await db('users').where({ email: email.toLowerCase() }).first();
-  return user;
+  try {
+    const user = await db('users').where({ email: email.toLowerCase() }).first();
+    return user;
+  } catch (err) {
+    console.log(err);
+  }
 };
