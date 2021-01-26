@@ -8,9 +8,8 @@
     "dev": "env NODE_ENV=development nodemon index.js",
     "migrate:dev": "env NODE_ENV=development postgrator --config postgrator-config.js",
     "migrate:test": "env NODE_ENV=test postgrator --config postgrator-config.js",
-    "migrate:production": "env NODE_ENV=production postgrator --config postgrator-config.js",
-    "migrate:heroku": "heroku run env NODE_ENV=production npm run migrate:production",
-    "postdeploy": "npm run migrate:production",
+    "migrate:production": "NODE_ENV=production postgrator --config postgrator-config.js",
+    "migrate:heroku": "heroku run npm run migrate:production",
     "test": "env NODE_ENV=test mocha --timeout 60000"
   },
   "repository": {
