@@ -7,18 +7,14 @@ const {
 module.exports = {
   development: {
     client: 'pg',
-    connection: LOCAL_DATABASE_URL,
-    ssl: true
+    connection: LOCAL_DATABASE_URL
   },
   production: {
     client: 'pg',
-    debug: true,
-    connection: DATABASE_URL,
-    ssl: true
+    connection: DATABASE_URL
   },
   test: {
     client: 'pg',
-    connection: TEST_DATABASE_URL,
-    ssl: true
+    connection: TEST_DATABASE_URL
   }
 };
