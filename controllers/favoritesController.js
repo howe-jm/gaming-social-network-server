@@ -31,7 +31,7 @@ exports.getFavorites = async (req, res) => {
 
 exports.getUserFavorites = async (req, res) => {
   try {
-    const user_id = req.params.userId;
+    const user_id = req.query.userId;
     const favGames = await retrieveFavorites(user_id);
 
     const favoritedGames = await favGames.map((game) => JSON.parse(game.game_json));
