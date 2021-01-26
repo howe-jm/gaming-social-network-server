@@ -35,13 +35,15 @@
     "helmet": "^4.2.0",
     "jimp": "^0.16.1",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.13",
+    "knex": "^0.21.16",
     "multer": "^1.4.2",
     "multer-s3": "^2.9.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "path": "^0.12.7",
-    "pg": "^7.18.2",
+    "pg": "^8.5.1",
+    "postgrator": "^4.1.1",
+    "postgrator-cli": "^4.0.0",
     "slugify": "^1.4.6",
     "socket.io": "^3.0.4",
     "unique-slug": "^2.0.2",
@@ -53,8 +55,6 @@
     "mocha": "^8.2.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.6",
-    "postgrator": "^4.1.1",
-    "postgrator-cli": "^4.0.0",
     "supertest": "^6.0.1"
   }
 }
