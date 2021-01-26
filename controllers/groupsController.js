@@ -7,7 +7,8 @@ const {
   removeMemberFromGroup,
   isUserInGroup,
   insertGroupPost,
-  retrieveGroupPosts
+  retrieveGroupPosts,
+  isUserGroupAdmin
 } = require('../services/groupsService');
 
 exports.createGroup = async (req, res) => {
@@ -73,9 +74,12 @@ exports.getGroup = async (req, res) => {
     }
 
     const isMember = await isUserInGroup(group.entity_id, group.id, user);
+    const isAdmin = await isUserGroupAdmin(group.entity_id, group.id, user);
     const members = await retrieveGroupMembers(group.id);
 
-    return res.status(200).json({ success: true, group, members, isMember });
+    return res
+      .status(200)
+      .json({ success: true, group, members, isMember, isAdmin });
   } catch (err) {
     res.status(500).json({
       success: false,

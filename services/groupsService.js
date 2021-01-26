@@ -111,6 +111,22 @@ exports.isUserInGroup = async (entity_id, group_id, user) => {
   return true;
 };
 
+exports.isUserGroupAdmin = async (entity_id, group_id, user) => {
+  try {
+    const admin = (
+      await db('groups').where({ entity_id, id: group_id, user_id: user.id })
+    )[0];
+
+    if (!admin) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 exports.insertMemberInGroup = async (entity_id, group_id, user) => {
   try {
     const member = await db('group_member')
