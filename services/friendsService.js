@@ -7,7 +7,7 @@ exports.getFriendReqs = async (user_b) => {
     const friends = await db.from('friends').where('user_b', user_b).returning('*');
     return friends;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get friend requests');
   }
 };
 
@@ -17,7 +17,7 @@ exports.getSentReqs = async (user_a) => {
     const friends = await db.from('friends').where('user_a', user_a).returning('*');
     return friends;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get sent friend requests');
   }
 };
 
@@ -32,7 +32,7 @@ exports.getCurrentFriends = async (user_id) => {
       .returning('*');
     return friends;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get current friends');
   }
 };
 
@@ -46,7 +46,7 @@ exports.getPendingRequests = async (user_id) => {
       .returning('*');
     return pendingReqs;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get pending friend requests');
   }
 };
 
@@ -60,7 +60,7 @@ exports.getSentRequests = async (user_id) => {
       .returning('*');
     return sentReqs;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get sent friend requests');
   }
 };
 
@@ -85,7 +85,7 @@ exports.acceptFriend = async (id, sender, user_id) => {
     )[0];
     return { insertIntoFriends, insertUserIntoFriends };
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot accept friend request');
   }
 };
 
