@@ -89,6 +89,11 @@ exports.acceptFriend = async (id, sender, user_id) => {
   }
 };
 
+exports.declineFriend = async (id) => {
+  const declinedFriend = await db.from('requests').where('id', id).delete();
+  return declinedFriend;
+};
+
 exports.removeFriend = async (user_a, friend_id) => {
   try {
     const deletedFriend = await db('friends').where('user_a', user_a).andWhere('friend_id', friend_id).delete();

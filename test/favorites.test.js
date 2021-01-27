@@ -58,6 +58,57 @@ describe('/favorites', () => {
   });
 });
 
+describe('/favorites/userFavorites', () => {
+  it('/should get favorite games', async () => {
+    await dropTables();
+    await createTables();
+    const { token } = await createUser({
+      username: 'darriss',
+      email: 'darriss@example.com',
+      password: 'pass123word',
+    });
+
+    const newFavorite = {
+      game_id: '1',
+      game: { testDescription: 'testing the name and game' },
+    };
+    await request(app)
+      .post('/favorites')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .send(newFavorite);
+    const { body } = await request(app)
+      .get('/favorites/userFavorites')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .query({ userId: 1 })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.favorites[0].testDescription).to.eql(newFavorite.game.testDescription);
+      });
+  });
+  it('/should POST a new favorite game', async () => {
+    await dropTables();
+    await createTables();
+    const { token } = await createUser({
+      username: 'darriss',
+      email: 'darriss@example.com',
+      password: 'pass123word',
+    });
+
+    const newFavorite = {
+      game_id: '1',
+      game: { testDescription: 'testing the name and game' },
+    };
+    await request(app)
+      .post('/favorites')
+      .set({ Authorization: `Bearer ${token}`, Accept: 'application/json' })
+      .send(newFavorite)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.game.game_json.testDescription).to.eql(newFavorite.game.testDescription);
+      });
+  });
+});
+
 describe('/favorites/:gameId', () => {
   it('/favorites/:gameId should delete game', async () => {
     await dropTables();
