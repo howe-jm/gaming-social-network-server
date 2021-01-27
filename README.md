@@ -1,6 +1,6 @@
 # Gaming Social Network Server
 
-<a href="https://thegsn.xyz/">Link to live app{' '}</a>
+<a href="https://gaming-social-network.vercel.app">Link to live app{' '}</a>
 <a href="https://github.com/domcodesjs/gaming-social-network-client">Link to client code</a>
 
 <h1>API Documentation</h1>
