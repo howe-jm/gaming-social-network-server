@@ -6,7 +6,7 @@ exports.insertUser = async (email, username, hashedPassword) => {
     await db('profiles').insert({ user_id: user.id });
     return user;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot insert user');
   }
 };
 
@@ -14,7 +14,7 @@ exports.deleteUser = (id) => {
   try {
     return db('users').where({ id }).delete();
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot delete user');
   }
 };
 
@@ -26,7 +26,7 @@ exports.updateUser = (id, updatedUser) => {
       .returning('*')
       .then((rows) => rows[0]);
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot update user');
   }
 };
 
@@ -35,7 +35,7 @@ exports.getUserIdByName = async (username) => {
     const id = await db('users').where({ username }).select('id').first();
     return id;
   } catch (err) {
-    throw Error('Username does not exist');
+    throw new Error('Cannot get user id by name');
   }
 };
 
@@ -51,7 +51,7 @@ exports.getUserProfile = async (userId) => {
     )[0];
     return userProfile;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get user profile');
   }
 };
 
@@ -72,6 +72,6 @@ exports.getUserSearch = async (searchTerm) => {
 
     return filteredUsers.map((user) => serializeUsers(user));
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot search users');
   }
 };

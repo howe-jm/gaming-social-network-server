@@ -6,7 +6,7 @@ exports.getUserProfile = async (id) => {
     const profile = (await db('profiles').where({ user_id: user.id }).returning('*'))[0];
     return profile;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get user profile');
   }
 };
 
@@ -15,7 +15,7 @@ exports.updateUserBio = async (user_bio, user_id) => {
     const profile = (await db('profiles').update('user_bio', user_bio).where({ user_id: user_id }).returning('*'))[0];
     return profile;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot update user bio');
   }
 };
 
@@ -26,7 +26,7 @@ exports.updateUserBanner = async (banner_url, user_id) => {
     )[0];
     return profile;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot update user banner');
   }
 };
 
@@ -37,7 +37,7 @@ exports.updateUserImage = async (profile_url, user_id) => {
     )[0];
     return profile;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot update user image');
   }
 };
 
@@ -46,7 +46,7 @@ exports.getUserImages = async (user_id) => {
     const images = await db('user_images').select('*').where({ user_id: user_id }).returning('*');
     return images;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get user images');
   }
 };
 
@@ -58,7 +58,7 @@ exports.postUserImage = async (user_id, imageURL) => {
     });
     return this.getUserImages(user_id);
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot post user image');
   }
 };
 
@@ -69,6 +69,6 @@ exports.updateHardware = async (user_id, hardware) => {
     )[0];
     return profile;
   } catch (err) {
-    console.error(err);
+    throw new Error('Cannot update hardware');
   }
 };

@@ -22,7 +22,7 @@ exports.insertPost = async (post_text, user_id) => {
     )[0];
     return joinedPost;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot insert post');
   }
 };
 
@@ -36,7 +36,7 @@ exports.getUserPosts = async (user_id) => {
       .returning('*');
     return posts;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get user posts');
   }
 };
 
@@ -48,6 +48,6 @@ exports.getAllPosts = async (ids) => {
       .returning('*');
     return allPosts;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get all posts');
   }
 };

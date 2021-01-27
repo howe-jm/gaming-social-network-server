@@ -90,8 +90,12 @@ exports.acceptFriend = async (id, sender, user_id) => {
 };
 
 exports.declineFriend = async (id) => {
-  const declinedFriend = await db.from('requests').where('id', id).delete();
-  return declinedFriend;
+  try {
+    const declinedFriend = await db.from('requests').where('id', id).delete();
+    return declinedFriend;
+  } catch (err) {
+    throw new Error('Cannot decline friend');
+  }
 };
 
 exports.removeFriend = async (user_a, friend_id) => {
@@ -100,7 +104,7 @@ exports.removeFriend = async (user_a, friend_id) => {
     const deleteBoth = await db('friends').where('user_a', friend_id).andWhere('friend_id', user_a).delete();
     return deleteBoth;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot remove friend');
   }
 };
 
@@ -109,7 +113,7 @@ exports.requestFriend = async (user, newFriend) => {
     const request = (await db('requests').insert({ sender: user, reciever: newFriend }).returning('*'))[0];
     return request;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot request friend');
   }
 };
 
@@ -122,6 +126,6 @@ exports.getListOfFriends = async (user_id) => {
       .returning('*');
     return list;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot get list of friends');
   }
 };
