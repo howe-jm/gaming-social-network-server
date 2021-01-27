@@ -1,12 +1,7 @@
 const slugify = require('slugify');
 const db = require('../knex/knex');
 
-exports.insertGroup = async (
-  user_id,
-  group_name,
-  group_description,
-  image_url
-) => {
+exports.insertGroup = async (user_id, group_name, image_url) => {
   const entity = (await db('entity').insert({}).returning('*'))[0];
   const group = (
     await db('groups')
@@ -14,7 +9,6 @@ exports.insertGroup = async (
         entity_id: entity.id,
         user_id,
         group_name,
-        group_description,
         image_url,
         slug: await slugify(group_name, {
           lower: true,
@@ -24,6 +18,25 @@ exports.insertGroup = async (
       .returning('*')
   )[0];
   return group;
+};
+
+exports.checkIfGroupExists = async (group_name) => {
+  const group = (
+    await db('groups')
+      .where({
+        slug: await slugify(group_name, {
+          lower: true,
+          strict: true
+        })
+      })
+      .returning('*')
+  )[0];
+
+  if (!group) {
+    return false;
+  }
+
+  return true;
 };
 
 exports.retrieveGroups = async (searchTerm) => {
