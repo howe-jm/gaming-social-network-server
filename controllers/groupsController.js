@@ -14,7 +14,7 @@ const {
 
 exports.createGroup = async (req, res) => {
   try {
-    const { group_name, group_description } = req.body;
+    const { group_name } = req.body;
     const user = req.user;
     const image_url = req.file.location;
 
@@ -40,28 +40,6 @@ exports.createGroup = async (req, res) => {
       });
     }
 
-    if (group_description.trim().length <= 3) {
-      return res.status(400).json({
-        success: false,
-        errors: [
-          {
-            msg: 'Group description must be at least 3 characters long.'
-          }
-        ]
-      });
-    }
-
-    if (group_description.trim().length > 140) {
-      return res.status(400).json({
-        success: false,
-        errors: [
-          {
-            msg: 'Group description cannot be longer than 140 characters.'
-          }
-        ]
-      });
-    }
-
     const groupExists = await checkIfGroupExists(group_name);
 
     if (groupExists) {
@@ -76,12 +54,7 @@ exports.createGroup = async (req, res) => {
       });
     }
 
-    const group = await insertGroup(
-      user.id,
-      group_name,
-      group_description,
-      image_url
-    );
+    const group = await insertGroup(user.id, group_name, image_url);
 
     if (!group) {
       return res.status(400).json({

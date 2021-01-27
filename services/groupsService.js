@@ -1,12 +1,7 @@
 const slugify = require('slugify');
 const db = require('../knex/knex');
 
-exports.insertGroup = async (
-  user_id,
-  group_name,
-  group_description,
-  image_url
-) => {
+exports.insertGroup = async (user_id, group_name, image_url) => {
   const entity = (await db('entity').insert({}).returning('*'))[0];
   const group = (
     await db('groups')
@@ -14,7 +9,6 @@ exports.insertGroup = async (
         entity_id: entity.id,
         user_id,
         group_name,
-        group_description,
         image_url,
         slug: await slugify(group_name, {
           lower: true,
