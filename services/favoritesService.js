@@ -5,7 +5,7 @@ exports.retrieveFavorites = async (user_id) => {
     const games = await db.from('fav_games').where({ user_id }).returning('*');
     return games;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot retrieve favorite games');
   }
 };
 
@@ -20,7 +20,7 @@ exports.retrieveFavoritesCount = async (game_id) => {
     }
     return total;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot retrieve favorites count');
   }
 };
 
@@ -29,7 +29,7 @@ exports.retrieveFavorite = async (user_id, game_id) => {
     const favorite = (await db.from('fav_games').where({ user_id, game_id }).returning('*'))[0];
     return favorite;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot retrieve user favorites');
   }
 };
 
@@ -38,7 +38,7 @@ exports.insertFavorite = async (user_id, game_id, newFavorite) => {
     const game = (await db('fav_games').insert({ user_id, game_id, game_json: newFavorite }).returning('*'))[0];
     return game;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot insert new favorite');
   }
 };
 
@@ -47,6 +47,6 @@ exports.removeFavorite = async (user_id, game_id) => {
     const deletedFavorite = await db('fav_games').where({ user_id, game_id }).delete();
     return deletedFavorite;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot remove favorite');
   }
 };

@@ -5,6 +5,6 @@ exports.getUserByEmail = async (email) => {
     const user = await db('users').where({ email: email.toLowerCase() }).first();
     return user;
   } catch (err) {
-    console.log(err);
+    throw new Error('Cannot find user with email');
   }
 };
