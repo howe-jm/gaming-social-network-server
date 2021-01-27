@@ -76,7 +76,18 @@ exports.retrieveGroupPosts = async (group_id) => {
     .join('users', {
       'users.id': 'group_post.user_id'
     })
-    .returning('*');
+    .join('profiles', {
+      'profiles.user_id': 'group_post.user_id'
+    })
+    .select([
+      'users.id',
+      'users.username',
+      'group_post.created_at',
+      'group_post.post_text',
+      'group_post.entity_id',
+      'profiles.profile_url'
+    ])
+    .orderBy('group_post.created_at', 'desc');
   return posts;
 };
 
@@ -104,8 +115,16 @@ exports.insertGroupPost = async (group_id, entity_id, post_text, user_id) => {
         .join('profiles', {
           'profiles.user_id': 'group_post.user_id'
         })
-        .returning('*')
+        .select([
+          'users.id',
+          'users.username',
+          'group_post.created_at',
+          'group_post.post_text',
+          'group_post.entity_id',
+          'profiles.profile_url'
+        ])
     )[0];
+    console.log(joinedPost);
     return joinedPost;
   } catch (err) {
     console.log(err);

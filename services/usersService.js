@@ -2,7 +2,11 @@ const db = require('../knex/knex');
 
 exports.insertUser = async (email, username, hashedPassword) => {
   try {
-    const user = (await db('users').insert({ email, username, password: hashedPassword }).returning('*'))[0];
+    const user = (
+      await db('users')
+        .insert({ email, username, password: hashedPassword })
+        .returning('*')
+    )[0];
     await db('profiles').insert({ user_id: user.id });
     return user;
   } catch (err) {
@@ -45,7 +49,7 @@ exports.getUserProfile = async (userId) => {
       await db('profiles')
         .where('user_id', userId)
         .join('users', {
-          'users.id': 'profiles.user_id',
+          'users.id': 'profiles.user_id'
         })
         .returning('*')
     )[0];
@@ -62,11 +66,13 @@ exports.getUserSearch = async (searchTerm) => {
 
     serializeUsers = (user) => ({
       id: user.id,
-      username: user.username,
+      username: user.username
     });
 
     if (searchTerm && searchTerm.trim('').length) {
-      const results = filteredUsers.filter((user) => user.username.toLowerCase().includes(searchTerm.toLowerCase()));
+      const results = filteredUsers.filter((user) =>
+        user.username.toLowerCase().includes(searchTerm.toLowerCase())
+      );
       filteredUsers = results;
     }
 

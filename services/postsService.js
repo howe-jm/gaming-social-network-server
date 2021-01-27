@@ -45,20 +45,20 @@ exports.getUserPosts = async (user_id) => {
 };
 
 exports.getAllPosts = async (ids) => {
-  const allPosts = await db('entity_post')
   try {
-    .where((builder) => builder.whereIn('user_id', ids))
-    .join('users', { 'users.id': 'entity_post.user_id' })
-    .select([
-      'users.id',
-      'users.username',
-      'entity_post.created_at',
-      'entity_post.post_text',
-      'entity_post.entity_id'
-    ])
-    .orderBy('entity_post.created_at', 'desc');
-  return allPosts;
+    const allPosts = await db('entity_post')
+      .where((builder) => builder.whereIn('user_id', ids))
+      .join('users', { 'users.id': 'entity_post.user_id' })
+      .select([
+        'users.id',
+        'users.username',
+        'entity_post.created_at',
+        'entity_post.post_text',
+        'entity_post.entity_id'
+      ])
+      .orderBy('entity_post.created_at', 'desc');
+    return allPosts;
   } catch (err) {
-    throw new Error('Cannot get all posts')
+    throw new Error('Cannot get all posts');
   }
 };
